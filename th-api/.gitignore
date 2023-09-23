@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # tinytuya
-./devices.json
-./snapshot.json
-./tintuya.json
-./tuya-raw.json
+devices.json
+snapshot.json
+tinytuya.json
+tuya-raw.json
