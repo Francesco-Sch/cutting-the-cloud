@@ -10,7 +10,7 @@ const { frontmatter } = Astro.props
 		<meta name="generator" content={Astro.generator} />
 		<title>{frontmatter.title}</title>
 	</head>
-	<body >
+	<body class="prose">
 		<slot/>
 	</body>
 </html>
