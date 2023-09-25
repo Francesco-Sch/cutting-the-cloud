@@ -1,5 +1,9 @@
 ---
+// Styles
+import "../styles/index.css";
+// Components
 import Header from "../components/Header.astro";
+
 const { frontmatter } = Astro.props;
 ---
 
@@ -11,10 +15,10 @@ const { frontmatter } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{frontmatter.title}</title>
 	</head>
-	<body class="">
+	<body>
 		<Header />
 
-		<main class="prose mx-auto max-w-3xl">
+		<main class="prose mx-auto max-w-3xl p-4">
 			<slot />
 		</main>
 	</body>
