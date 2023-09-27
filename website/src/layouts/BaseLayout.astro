@@ -18,8 +18,17 @@ const { frontmatter } = Astro.props;
 	<body>
 		<Header />
 
-		<main class="prose prose-p:text-lg mx-auto max-w-3xl p-4">
+		<main
+			class="main max-w-none p-2 md:p-3 2xl:p-4"
+		>
 			<slot />
 		</main>
 	</body>
 </html>
+
+<style lang="postcss" is:global>
+	/* Porse settings */
+	.main {
+		@apply prose prose-headings:max-w-3xl prose-headings:mx-auto prose-p:max-w-3xl prose-p:mx-auto prose-p:text-lg prose-blockquote:max-w-3xl prose-blockquote:mx-auto prose-table:max-w-3xl prose-table:mx-auto
+	}
+</style>
