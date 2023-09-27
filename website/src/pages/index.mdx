@@ -3,6 +3,9 @@ layout: ../layouts/BaseLayout.astro
 title: The World behind Temperature Sensors
 ---
 
+import { Image } from "astro:assets";
+import component_overview_pcb from "../assets/images/component-overview_TH08-CBU-AHT20-V2.1_placeholder.webp";
+
 # The World behind Temperature Sensors
 
 During a class I attended at Hochschule für Künste Bremen, called Aliexpress Archaeology, we were asked to dig deep into Aliexpress and find objects of our interest. If you do not know Aliexpress yet, it is basically an online shopping platform to buy all kinds of goods, similar to somehing like Amazon or ebay. The difference with Aliexpress, however, is that the products sold there are supposedly directly from the production facilities, which are mostly located in Shenzhen. Through buying directly from the manufacturers a lot of middlemen in the delivery chain are extracted, which in turn results in favourable sales prices.
@@ -17,21 +20,32 @@ The price for one temperature sensor was 7,62€, which is in my mind insanely c
 
 and also
 
-> How weird is it that homes of western society are modernized through propiertary technology that was most likely produced under exploitative labour practices?
+> How weird is it that homes of western society are modernized through propiertary technology that was most likely produced under exploitative labour practices in south east asia?
 
 Apart from that more sociological intererst the general device was also appealing to me. I wanted to see if I could somehow acquire or hack the technical inner workings of the device. My original idea was to somehow gain control over the screen and then use it to tell a visual narrative. I failed miserably, which you can read more about in the [technical documentation](/hacking-temperature-sensors) for hacking this device.
 
-In the following I want to share bits and pieces, that try to give an answer to the questions above.
+The following chapters are loose clusters of research I stumbled across during my attempt of hacking the temperature sensors. Through this ongoing organization of thoughts I try to find answers to the questions above.
 
 ## Aliexpress and Shenzen
 
 ## Value of Labour
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In our current capitalist society we express value of labour through money in different currencies. To understand better how much the labour, to produce this devices, is valued I had a closer look at the price and tried to backwards engineer the price.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+It was the easiest to start looking at the PCB and calculate the prices for the individual components used on it. This is what the PCB looks like:
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+<Image
+	src={component_overview_pcb}
+	alt="Top view of the PCB with annotated components."
+
+/>
+
+I looked up the prices for the components on the websites PCBway and JLPCB. These are commonly used website I know to produce your own PCB design. As they are also based in Shenzen I thought this could be a good reference point.
+
+| Item         | Price    | # In stock |
+| ------------ | -------- | ---------- |
+| Juicy Apples | 1.99     | _7_        |
+| Bananas      | **1.89** | 5234       |
 
 ## Dropshipping
 
