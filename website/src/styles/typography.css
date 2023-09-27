@@ -1,0 +1,16 @@
+@font-face {
+	font-family: "Goozette";
+	src: url("/fonts/goozette.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.display {
+	font-family: "Goozette", sans-serif;
+}
