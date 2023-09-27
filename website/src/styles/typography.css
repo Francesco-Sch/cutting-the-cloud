@@ -1,3 +1,15 @@
+@font-face {
+	font-family: "Commit Mono";
+	src: url("/fonts/CommitMono_VariableFont.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 * {
-	@apply font-mono;
+	@apply font-mono font-semibold;
+}
+
+p {
+	@apply font-serif font-normal;
 }
