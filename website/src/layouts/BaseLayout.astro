@@ -1,64 +1,22 @@
 ---
-import { ViewTransitions } from "astro:transitions";
-
-import "../styles/index.css";
-
+// Components
+import CommonHead from "../components/CommonHead.astro";
 import Header from "../components/Header.astro";
 
+// Styles
+import "../styles/index.css";
 
+// Props
 const { frontmatter } = Astro.props;
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>What's Worth - {frontmatter.title}</title>
-
-		<ViewTransitions />
-	</head>
+	<CommonHead title={`What's Worth? - ${frontmatter.title}`} />
 	<body>
 		<Header />
 
-		<main
-			class="main max-w-none p-2 md:p-3 2xl:p-4"
-			transition:name="content"
-		>
+		<main class="main max-w-none p-2 md:p-3 2xl:p-4" transition:name="content">
 			<slot />
 		</main>
 	</body>
 </html>
-
-<style lang="postcss" is:global>
-	/* Porse settings */
-	.main {
-		@apply prose 
-		prose-headings:max-w-3xl 
-		prose-headings:mx-auto 
-		
-		prose-p:max-w-3xl 
-		prose-p:mx-auto 
-		prose-p:text-lg 
-		
-		prose-blockquote:max-w-3xl 
-		prose-blockquote:mx-auto 
-		prose-blockquote:text-lg 
-		
-		prose-table:max-w-3xl 
-		prose-table:mx-auto
-
-		prose-ol:max-w-3xl
-		prose-ol:mx-auto
-		prose-ol:text-lg
-
-		prose-ul:max-w-3xl
-		prose-ul:mx-auto
-		prose-ul:text-lg
-
-		prose-pre:max-w-3xl
-		prose-pre:mx-auto
-		prose-pre:text-lg
-	}
-</style>
