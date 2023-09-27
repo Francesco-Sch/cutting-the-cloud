@@ -29,6 +29,27 @@ const { frontmatter } = Astro.props;
 <style lang="postcss" is:global>
 	/* Porse settings */
 	.main {
-		@apply prose prose-headings:max-w-3xl prose-headings:mx-auto prose-p:max-w-3xl prose-p:mx-auto prose-p:text-lg prose-blockquote:max-w-3xl prose-blockquote:mx-auto prose-table:max-w-3xl prose-table:mx-auto
+		@apply prose 
+		prose-headings:max-w-3xl 
+		prose-headings:mx-auto 
+		
+		prose-p:max-w-3xl 
+		prose-p:mx-auto 
+		prose-p:text-lg 
+		
+		prose-blockquote:max-w-3xl 
+		prose-blockquote:mx-auto 
+		prose-blockquote:text-lg 
+		
+		prose-table:max-w-3xl 
+		prose-table:mx-auto
+
+		prose-ol:max-w-3xl
+		prose-ol:mx-auto
+		prose-ol:text-lg
+
+		prose-ul:max-w-3xl
+		prose-ul:mx-auto
+		prose-ul:text-lg
 	}
 </style>

@@ -12,7 +12,13 @@ During a class I attended at Hochschule für Künste Bremen, called Aliexpress A
 
 While exploring the website I found myself quickly interested in very cheap smart home products, that could be easily used through an app called _Smart Life_. I was especially interested in a battery powered temperature sensor advertised under the name _Tuya WIFI Temperature Humidity Sensor Indoor Hygrometer Thermometer Detector Smart Life Remote Control Support Alexa Google Home_.
 
-![Image of the temperature sensor](https://ae01.alicdn.com/kf/A3e71cf860e764a8f82a29515653d37898/Tuya-WIFI-Temperature-Humidity-Sensor-Indoor-Hygrometer-Thermometer-Detector-Smart-Life-Remote-Control-Support-Alexa-Google.png_.webp)
+<Image
+	src="https://ae01.alicdn.com/kf/A3e71cf860e764a8f82a29515653d37898/Tuya-WIFI-Temperature-Humidity-Sensor-Indoor-Hygrometer-Thermometer-Detector-Smart-Life-Remote-Control-Support-Alexa-Google.png_.webp"
+	alt="Product image of the temperature sensor"
+	width="768"
+	height="768"
+	class="mx-auto"
+/>
 
 The price for one temperature sensor was 7,62€, which is in my mind insanely cheap, and I aksed myself
 
@@ -26,8 +32,6 @@ Apart from that more sociological intererst the general device was also appealin
 
 The following chapters are loose clusters of research I stumbled across during my attempt of hacking the temperature sensors. Through this ongoing organization of thoughts I try to find answers to the questions above.
 
-## Aliexpress and Shenzen
-
 ## Value of Labour
 
 In our current capitalist society we express value of labour through money in different currencies. To understand better how much the labour, to produce this devices, is valued I had a closer look at the price and tried to backwards engineer the price.
@@ -40,7 +44,7 @@ It was the easiest to start looking at the PCB and calculate the prices for the 
 />
 
 I looked up the prices for the components on the Assembly Parts Lib of JLCPCB. This is a commonly used website to produce your own PCB designs. As it is also based in Shenzen I thought this could be a good reference point.
-From two of the chips the label was earsed, so I could not find the exact price for them. Nevertheless, these chips are probably a TuyaMCU chip as well as an RTC chip. Some other components do have a label but could not be identified. [^1]
+From two of the chips the label was earsed, so I could not find the exact price for them. Nevertheless, these chips are probably a TuyaMCU chip as well as an RTC chip. Some other components do have a label but could not be identified. [^1] [^2]
 
 ### Prices from JLCPCB Assembly Parts Lib
 
@@ -61,16 +65,24 @@ From two of the chips the label was earsed, so I could not find the exact price 
 | Battery Contacts (unknown)                                                          | 2      | ?       | ?       | ?         |
 | **Price in total**                                                                  |        |         |         | **4,23€** |
 
-As though this is a very rough estimate, as I could not find the exact components, I think it is a good starting point to get a feeling for the value of just the components.
+As though this is a very rough estimate, as I could not find the exact components, it creates a feeling for the value of just the components.
 Substracted from the original price of the device, it leaves us with:
 
-{/* Add LaTeX calculation */}
+{/* TODO: Add LaTeX calculation */}
 
 From this remaining amount there still needs to be covered cost such as
 
-- woiubni
+- Other manufacturing costs except the Material BOM
+- Financing costs
+- Fulfillment costs
+- Fixed cost
+- Internal costs
+- Packaging costs
+- etc.
 
-This is only the COGS (Cost of Goods) and Markup is not even included. Eventhough this is a very sketchy calculation it gives a good starting to point to estimate how much the labour was valued that went into the production of this device.
+This is only the COGS (Cost of Goods) and Markup is not even included. Eventhough this is a sketchy calculation it gives a good starting to point to estimate how much the labour was valued that went into the production of this device.
+
+## Aliexpress and Shenzen
 
 ## Dropshipping
 
@@ -83,3 +95,4 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 [^1]: [This forum post](https://www.elektroda.com/rtvforum/topic4000657.html) was very helpful to identify the components.
+[^2]: Prices are from 2023-09-27.
