@@ -6,6 +6,11 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
+				display: [
+					"'Goozette'",
+					"'Source Serif 4 Variable'",
+					...defaultTheme.fontFamily.serif,
+				],
 				serif: ["'Source Serif 4 Variable'", ...defaultTheme.fontFamily.serif],
 				mono: ["'Commit Mono'", ...defaultTheme.fontFamily.mono],
 			},
