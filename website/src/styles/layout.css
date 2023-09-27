@@ -3,6 +3,17 @@
     prose-headings:max-w-3xl 
     prose-headings:mx-auto 
     
+    prose-h1:text-6xl/tight
+    prose-h1:indent-0
+    prose-h1:mb-20
+    prose-h2:text-4xl/tight
+    prose-h3:text-3xl/tight
+    prose-h4:text-2xl/tight
+    prose-h5:text-xl/tight
+    prose-h6:text-lg/tight
+
+    prose-th:indent-0
+    
     prose-p:max-w-3xl 
     prose-p:mx-auto 
     prose-p:text-lg 
