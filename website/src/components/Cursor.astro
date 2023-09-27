@@ -1,0 +1,23 @@
+---
+
+---
+
+<!-- Create .cursor -->
+<div
+	class="cursor absolute w-10 h-10 from-orange-700 to-transparent bg-gradient-to-r rounded-full z-50"
+>
+</div>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		// Circular gradient that follows cursor
+		const circle = document.querySelector(".cursor");
+
+		function moveCircle(e) {
+			circle.style.left = `${e.pageX}px`;
+			circle.style.top = `${e.pageY}px`;
+		}
+
+		document.addEventListener("mousemove", moveCircle);
+	});
+</script>
