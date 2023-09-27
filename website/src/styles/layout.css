@@ -1,5 +1,5 @@
 .main {
-	@apply prose 
+	@apply prose prose-book
     prose-headings:max-w-3xl 
     prose-headings:mx-auto 
     
