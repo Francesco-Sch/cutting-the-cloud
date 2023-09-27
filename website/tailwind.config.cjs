@@ -7,6 +7,7 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				serif: ["'Source Serif 4 Variable'", ...defaultTheme.fontFamily.serif],
+				mono: ["'Commit Mono'", ...defaultTheme.fontFamily.mono],
 			},
 
 			typography: (theme) => ({

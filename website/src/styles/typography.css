@@ -4,13 +4,18 @@
 	font-weight: normal;
 	font-style: normal;
 }
+@font-face {
+	font-family: "Commit Mono";
+	src: url("/fonts/commit-mono_variable.woff") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
 
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
-.display {
-	font-family: "Goozette", sans-serif;
+h6 {
+	font-family: "Goozette", "Source Serif 4 Variable", serif;
 }
