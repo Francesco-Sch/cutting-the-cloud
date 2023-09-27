@@ -1,8 +1,10 @@
 ---
-// Styles
+import { ViewTransitions } from "astro:transitions";
+
 import "../styles/index.css";
-// Components
+
 import Header from "../components/Header.astro";
+
 
 const { frontmatter } = Astro.props;
 ---
@@ -14,12 +16,15 @@ const { frontmatter } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>What's Worth - {frontmatter.title}</title>
+
+		<ViewTransitions />
 	</head>
 	<body>
 		<Header />
 
 		<main
 			class="main max-w-none p-2 md:p-3 2xl:p-4"
+			transition:name="content"
 		>
 			<slot />
 		</main>
