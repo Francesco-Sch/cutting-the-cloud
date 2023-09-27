@@ -6,32 +6,34 @@
     prose-h1:text-6xl/tight
     prose-h1:indent-0
     prose-h1:mb-20
-    prose-h2:text-4xl/tight
-    prose-h3:text-3xl/tight
-    prose-h4:text-2xl/tight
-    prose-h5:text-xl/tight
-    prose-h6:text-lg/tight
+    prose-h2:text-4xl/snug
+    prose-h3:text-3xl/snug
+    prose-h4:text-2xl/snug
+    prose-h5:text-xl/snug
+    prose-h6:text-lg/snug
 
     prose-th:indent-0
     
     prose-p:max-w-3xl 
-    prose-p:mx-auto 
-    prose-p:text-lg 
+    prose-p:mx-auto
+    prose-p:font-serif 
+    prose-p:text-xl/relaxed
     
     prose-blockquote:max-w-3xl 
-    prose-blockquote:mx-auto 
-    prose-blockquote:text-lg 
+    prose-blockquote:mx-auto
     
     prose-table:max-w-3xl 
     prose-table:mx-auto
 
     prose-ol:max-w-3xl
     prose-ol:mx-auto
-    prose-ol:text-lg
+    prose-ol:font-serif
+    prose-ol:text-xl
 
     prose-ul:max-w-3xl
     prose-ul:mx-auto
-    prose-ul:text-lg
+    prose-ul:font-serif
+    prose-ul:text-xl
 
     prose-pre:max-w-3xl
     prose-pre:mx-auto
