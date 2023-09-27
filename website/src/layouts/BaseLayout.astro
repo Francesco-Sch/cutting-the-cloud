@@ -13,12 +13,12 @@ const { frontmatter } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{frontmatter.title}</title>
+		<title>What's Worth - {frontmatter.title}</title>
 	</head>
 	<body>
 		<Header />
 
-		<main class="prose mx-auto max-w-3xl p-4">
+		<main class="prose prose-p:text-lg mx-auto max-w-3xl p-4">
 			<slot />
 		</main>
 	</body>
