@@ -32,20 +32,34 @@ The following chapters are loose clusters of research I stumbled across during m
 
 In our current capitalist society we express value of labour through money in different currencies. To understand better how much the labour, to produce this devices, is valued I had a closer look at the price and tried to backwards engineer the price.
 
-It was the easiest to start looking at the PCB and calculate the prices for the individual components used on it. This is what the PCB looks like:
+It was the easiest to start looking at the PCB and calculate the prices for the individual components used on it. This is what the PCB looks like. The components are annotated.
 
 <Image
 	src={component_overview_pcb}
 	alt="Top view of the PCB with annotated components."
-
 />
 
-I looked up the prices for the components on the websites PCBway and JLPCB. These are commonly used website I know to produce your own PCB design. As they are also based in Shenzen I thought this could be a good reference point.
+I looked up the prices for the components on the Assembly Parts Lib of JLCPCB. These are commonly used website to produce your own PCB design. As they are also based in Shenzen I thought this could be a good reference point.
+From two of the chips the label was earsed, so I could not find the exact price for them. Nevertheless, these chips are probably a TuyaMCU chip as well as an RTC chip. Some other components do have a label but could not be identified through those.
 
-| Item         | Price    | # In stock |
-| ------------ | -------- | ---------- |
-| Juicy Apples | 1.99     | _7_        |
-| Bananas      | **1.89** | 5234       |
+### Prices from JLCPCB Assembly Parts Lib
+
+| Component                                                                           | Amount | $ Price | € Price | € Total  |
+| ----------------------------------------------------------------------------------- | ------ | ------- | ------- | -------- |
+| [CBU(edzu)](https://jlcpcb.com/partdetail/Tuya-CBU_edzu/C2845087)                   | 1      | $3.2121 |         |          |
+| [BL55070](https://jlcpcb.com/partdetail/bl_shanghai_belling-BL55070/C692273)        | 1      | $0.4865 |         |          |
+| [AHT20-F](https://jlcpcb.com/partdetail/Aosong_guangzhou_Elec-AHT20F/C3012622)      | 1      | $0.6566 |         |          |
+| [NP2302FVR-J-G](https://jlcpcb.com/partdetail/Natlinear-NP2302FVR_JG/C2991117)      | 1      | $0.0109 |         |          |
+| 32.768 JSK ENM ([similar](https://jlcpcb.com/partdetail/251606-C32768J003/C259056)) | 1      | $0.0739 |         |          |
+| LED ([similar](https://jlcpcb.com/partdetail/Baizou-S2835WW8C1_02_3VKMT/C5357369))  | 2      | $0.0101 |         |          |
+| TuyaMCU (unknown)                                                                   | 1      | ?       |         |          |
+| RTC (unknown)                                                                       | 1      | ?       |         |          |
+| FDAR voltage regulator (2,8 volts) (unkown)                                         | 1      | ?       |         |          |
+| FEAQ voltage regulator (3,3 volts) (unkown)                                         | 1      | ?       |         |          |
+| 6BRO resistor (unknown)                                                             | 1      | ?       |         |          |
+| Button (unknown)                                                                    | 1      | ?       |         |          |
+| Battery Contacts (unknown)                                                          | 2      | ?       |         |          |
+| **Price in total**                                                                  |        |         |         | **4,5€** |
 
 ## Dropshipping
 
