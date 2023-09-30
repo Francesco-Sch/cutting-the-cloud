@@ -1,6 +1,7 @@
 /* Global Styles */
-@import "typography.css";
+@import "global.css";
 @import "layout.css";
+@import "typography.css";
 
 /* Tailwind CSS */
 @tailwind base;
