@@ -22,11 +22,11 @@ While exploring the website I found myself quickly interested in very cheap smar
 
 The price for one temperature sensor was 7,62€, which is in my mind insanely cheap, and I aksed myself
 
-> How can a smart home device, which is capable of quite a lot of technical features, be offered so cheap?
+**How can a smart home device, which is capable of quite a lot of technical features, be offered so cheap?**
 
 and also
 
-> How weird is it that homes in western society are modernized through propiertary technology that was most likely produced under exploitative labour practices in south east asia?
+**How weird is it that homes in western society are modernized through propiertary technology that was most likely produced under exploitative labour practices in south east asia?**
 
 Apart from that more sociological intererst the general device was also appealing to me. I wanted to see if I could somehow acquire or hack the technical inner workings of the device. My original idea was to somehow gain control over the screen and then use it to tell a visual narrative. I failed miserably, which you can read more about in the [technical documentation](/hacking-temperature-sensors) for hacking this device.
 
@@ -86,14 +86,35 @@ This is only the COGS (Cost of Goods) and Markup is not even included. Eventhoug
 
 ## Dropshipping
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+One day during my research I tried to find out if the TH08 temperature sensor or also the other ones I bought (you can find a full list in the [technical documentation](/hacking-temperature-sensors/)) were available outside of Aliexpress. Very quickly I found was I was looking for on Amazon. I could find the the same devices I bought on Aliexpress also on Amazon. The images, names and description differed only slightly but the real difference was in the price. Depending on the device the price on Amazon was up to 2.8x higher than the one on Aliexpress.
+
+| Aliexpress                                                     | Amazon                                        |
+| -------------------------------------------------------------- | --------------------------------------------- |
+| [TH08](https://de.aliexpress.com/item/1005004755749389.html)   | [TH08](https://www.amazon.de/dp/B0B9Y4D4PR)   |
+| [TH01](https://de.aliexpress.com/item/1005005097738278.html)   | [TH01](https://www.amazon.de/dp/B0B8HSJ4WG)   |
+| [KBZ-FR](https://de.aliexpress.com/item/1005004492234396.html) | [KBZ-FR](https://www.amazon.de/dp/B0B3D4Z98S) |
+
+There has been no unmarked sale on Aliexpress during my observation of the products. Accordingly, I have always paid the sales prices indicated and also calculated with those here.
+The high price difference as well as the mismatch in the seller led me to the thesis that the products are sold through Dropshipping.
+
+{/* Short definition what drop shipping is */}
+
+{/* Aliexpress is known for dropshipping */}
+
+Another indicator for the dropshipping thesis is the [Expo website from Tuya](https://expo.tuya.com/). That websites enables you to buy Tuya products in high volumne from certified suppliers. On this website it is also possible to buy the [TH08 wifi sensor](https://expo.tuya.com/product/1077042) even with the ability to customize it.
+
+To provide and distribute this technology via dropshipping
 
 ## Proprietary Technology - <br/> TuyaMCU and Tuya Cloud
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lastly I want to raise attention to the usage of propiertary technology in these smart home devices. All these devices are equipped with WiFi modules and MCU chips from Tuya. Tuya is a chinese smart home company that provides technologies to others for easier smart home product development. This goes from Cloud Services, over development tools such as SDKs to Wifi chips and MCU chips, which help to easily build compatible PCBs. Through offerings all those services it becomes very easy as a third party company to develop and then dsitribute smart home products. Even though this sounds nice on the first look it is a smart move from Tuya to look the devices into their ecosystem. This means that all the devices are only compatible with the Tuya apps and the Tuya cloud. Therefore all the data that is collected by the devices is also stored on the Tuya cloud, which is located in China. Using their services without relying on their cloud is not possible.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This is problematic on multiple levels. As a company using those services you need to adapt to all the changes Tuya makes without having any control over it.
+As a customer this is even more problematic, cause sensitive data is stored on a cloud that is not under your control. As most customers use these devices in a very private space, their home, this becomes a big risk. especially because it is already known that Tuya stores a lot of information about the devices and their usage such as network status, IP adresses, locations, etc. [^4]
+
+In the second part of this project, which was also reffered to as the [technical documentation](/hacking-temperature-sensors/), you can read about attempts to free the devices from the Tuya ecosystem, to gain more control over their data usage and using them more freely.
 
 [^1]: [https://jlcpcb.com/about](https://jlcpcb.com/about)
 [^2]: [This forum post](https://www.elektroda.com/rtvforum/topic4000657.html) was very helpful to identify the components.
 [^3]: Prices are from 2023-09-27.
+[^4]:
