@@ -2,6 +2,7 @@
 // Components
 import CommonHead from "../components/CommonHead.astro";
 import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
 
 // Styles
 import "@fontsource-variable/source-serif-4";
@@ -14,7 +15,8 @@ const { frontmatter } = Astro.props;
 <html lang="en">
 	<CommonHead title={`What's Worth? - ${frontmatter.title}`} />
 	<body class="bg-neutral-100 mouse-cursor-gradient-tracking">
-		<Header />
+		<!-- <Header /> -->
+		<Hero />
 
 		<main class="main max-w-none p-2 md:p-3 2xl:p-4" transition:name="content">
 			<slot />
