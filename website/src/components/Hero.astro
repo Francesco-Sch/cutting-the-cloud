@@ -1,10 +1,64 @@
 ---
-import { Image } from "astro:assets";
-import heroImage from "../assets/images/whats-worth_hero.png";
+
 ---
 
-<script></script>
+<script>
+	import Konva from "konva";
 
-<section class="w-full h-screen bg-[url(/whats-worth_hero.png)]"></section>
+	let heroContainer = document.querySelector("#hero");
+
+	let hero = new Konva.Stage({
+		container: "hero",
+		width: heroContainer.offsetWidth,
+		height: heroContainer.offsetHeight,
+	});
+
+	let bgLayer = new Konva.Layer();
+	hero.add(bgLayer);
+
+	Konva.Image.fromURL("/whats-worth_hero.webp", (img) => {
+		img.setAttrs({
+			x: 0,
+			y: 0,
+			width: hero.width(),
+			height: (hero.width() / img.width()) * img.height(),
+			listening: false,
+		});
+
+		bgLayer.add(img);
+	});
+
+	let gradientLayer = new Konva.Layer();
+	hero.add(gradientLayer);
+
+	let gradient = new Konva.Circle({
+		x: hero.width() / 2,
+		y: hero.height() / 2,
+		radius: (hero.width() / 10) * 6,
+		fillRadialGradientStartPoint: { x: 0, y: 0 },
+		fillRadialGradientStartRadius: 0,
+		fillRadialGradientEndPoint: { x: 0, y: 0 },
+		fillRadialGradientEndRadius: (hero.width() / 10) * 6,
+		fillRadialGradientColorStops: [
+			0,
+			"#f5f5f5",
+			0.1,
+			"#f5f5f5f5",
+			0.2,
+			"#f5f5f5f0",
+			0.3,
+			"#f5f5f5de",
+			0.7,
+			"#f5f5f5b5",
+			1,
+			"#f5f5f500",
+		],
+
+		listening: false,
+	});
+	gradientLayer.add(gradient);
+</script>
+
+<section class="w-full h-screen" id="hero"></section>
 
 <style></style>
