@@ -1,4 +1,4 @@
-.main {
+.content {
 	@apply prose prose-book
     prose-headings:max-w-3xl 
     prose-headings:mx-auto 

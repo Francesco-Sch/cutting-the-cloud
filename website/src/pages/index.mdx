@@ -8,9 +8,9 @@ import component_overview_pcb from "../assets/images/component-overview_TH08-CBU
 
 # The World behind Temperature Sensors
 
-During a class I attended at Hochschule für Künste Bremen, called Aliexpress Archaeology, we were asked to dig deep into Aliexpress and find objects of our interest. If you do not know Aliexpress yet, it is basically an online shopping platform to buy all kinds of goods, similar to somehing like Amazon or ebay. The difference with Aliexpress, however, is that the products sold there are supposedly directly from the production facilities, which are mostly located in Shenzhen. Through buying directly from the manufacturers a lot of middlemen in the delivery chain are extracted, which in turn results in favourable sales prices.
+During a class I attended at Hochschule für Künste Bremen, called Aliexpress Archaeology, we were asked to dig deep into Aliexpress and find objects of our interest. Aliexpress is the customer shopping platform of the Alibaba Group Holding Limited. The difference with Aliexpress, however, is that the products sold there are supposedly directly from the production facilities. Through buying directly from the manufacturers a lot of middlemen in the delivery chain are extracted, which in turn results in favourable sales prices.
 
-While exploring the website I found myself quickly interested in very cheap smart home products, that could be easily used through an app called _Smart Life_. I was especially interested in a battery powered temperature sensor advertised under the name _Tuya WIFI Temperature Humidity Sensor Indoor Hygrometer Thermometer Detector Smart Life Remote Control Support Alexa Google Home_.
+While exploring the website I found myself quickly interested in very cheap smart home products, that could be easily used through an app called _Smart Life_ or _Tuya Smart_. I was especially interested in a battery powered temperature sensor advertised under the name _Tuya WIFI Temperature Humidity Sensor Indoor Hygrometer Thermometer Detector Smart Life Remote Control Support Alexa Google Home_.[^1]
 
 <Image
 	src="https://ae01.alicdn.com/kf/A3e71cf860e764a8f82a29515653d37898/Tuya-WIFI-Temperature-Humidity-Sensor-Indoor-Hygrometer-Thermometer-Detector-Smart-Life-Remote-Control-Support-Alexa-Google.png_.webp"
@@ -20,31 +20,29 @@ While exploring the website I found myself quickly interested in very cheap smar
 	class="mx-auto"
 />
 
-The price for one temperature sensor was 7,62€, which is in my mind insanely cheap, and I aksed myself
+The price for one temperature sensor was 7,62€, which is in my mind pretty cheap for an technical device, and I aksed myself
 
-> How can a smart home device, which is capable of quite a lot of technical features, be offered so cheap?
+**How can a smart home device, which is capable of quite a lot of technical features, be offered so cheap?**
 
 and also
 
-> How weird is it that homes in western society are modernized through propiertary technology that was most likely produced under exploitative labour practices in south east asia?
+**How weird is it that homes in western society are modernized through propiertary technology that was most likely produced under exploitative labour practices in south east asia?**
 
-Apart from that more sociological intererst the general device was also appealing to me. I wanted to see if I could somehow acquire or hack the technical inner workings of the device. My original idea was to somehow gain control over the screen and then use it to tell a visual narrative. I failed miserably, which you can read more about in the [technical documentation](/hacking-temperature-sensors) for hacking this device.
+Apart from that more sociological intererst the general device was also appealing to me. I wanted to see if I could somehow acquire or hack the technical inner workings of the device. My original idea was to gain control over the screen and then use it to tell a visual narrative. I failed miserably, which you can read more about in the [second part of my documentation](/hacking-temperature-sensors) about hacking that device.
 
-The following chapters are loose clusters of research I stumbled across during my attempt of hacking the temperature sensors. Through this ongoing organization of thoughts I try to find answers to the questions above.
+The following chapters are loose areas of research I stumbled across during my attempt of hacking the temperature sensors. The reasearch is splitted into broad chapters that together try to provide answers to the questions above.
 
 ## Value of Labour
 
-In our current capitalist society we express value of labour through money in different currencies. To understand better how much the labour, to produce this devices, is valued I had a closer look at the price and tried to backwards engineer the price.
-
-It was the easiest to start looking at the PCB and calculate the prices for the individual components used on it. This is what the PCB looks like. The components are annotated.
+In our current capitalist society we express value of labour most of the times through money. To understand better how much the labour in the TH08 temperature sensor is valued, I tried to backwards engineer the price of the device. I started with looking at the PCB and calculate the prices for the individual component.
 
 <Image
 	src={component_overview_pcb}
 	alt="Top view of the PCB with annotated components."
 />
 
-I looked up the prices for the components on the Assembly Parts Lib of JLCPCB. [^1] This is a commonly used website to produce your own PCB designs. As it is also based in Shenzen I thought this could be a good reference point.
-From two chips the label was earsed, so I could not identify the exact price. Nevertheless, they are probably a TuyaMCU chip as well as an RTC chip. Some other components do have a label but could not be identified. [^2] [^3]
+I looked up the prices for the components on the Assembly Parts Lib of JLCPCB. [^2] This is a commonly used website to produce your own PCB designs. As it is also based in Shenzen this should give us a good reference point.
+From two of the chips the label was earsed, therefore the price could not be indentified. Nevertheless, they are probably a TuyaMCU chip as well as an RTC chip. Some other components have labels but could neither be identified. [^3] [^4]
 
 ### Prices from JLCPCB Assembly Parts Lib
 
@@ -65,12 +63,12 @@ From two chips the label was earsed, so I could not identify the exact price. Ne
 | Battery Contacts (unknown)                                                          | 2      | ?       | ?       | ?         |
 | **Price in total**                                                                  |        |         |         | **4,23€** |
 
-Keep in mind that this is only the price for the components. The plastic case, the LCD screen, all the small resistors and capacitors as well as the material for the PCB itself are not included.Even though this is a very rough estimate, it still creates a good feeling for the material costs of the device.  
+Keep in mind that this is only the price for some of the components. The plastic case, the LCD screen, all the small resistors and capacitors as well as the material for the PCB itself are not included. Even though this is a very rough estimate, it still creates a good feeling for the material costs of the device.
 Substracted from the original price of the device, it leaves us with:
 
 $$7,62€ - 4,23€ = 3,39€$$
 
-From this remaining amount there still needs to be covered cost such as
+From this remaining amount there still needs to be cost covered such as
 
 - Other manufacturing costs except the Material BOM
 - Financing costs
@@ -80,20 +78,52 @@ From this remaining amount there still needs to be covered cost such as
 - Packaging costs
 - etc.
 
-This is only the COGS (Cost of Goods) and Markup is not even included. Eventhough this is a sketchy calculation it gives a good starting to point to estimate how much the labour was valued that went into the production of this device.
+This is only the so called COGS (Cost of Goods). Markup is not even included. [^5] [^6] Eventhough this is a sketchy calculation it gives a good starting point to estimate how much the labour was valued that went into the production of this device.
 
 ## Aliexpress and Shenzen
 
+You may wonder, how is this possible? How can a device be produced and sold for such a low price?
+
+AliExpress, an online retail platform, is known for offering remarkably cheap prices on a wide range of products. One of the primary reasons behind their ability to provide such low prices is the direct-to-consumer model. AliExpress connects buyers directly with manufacturers and sellers, cutting out the middlemen and associated distribution costs. This eliminates the need for expensive physical storefronts and reduces overhead expenses. Additionally, many of the products on AliExpress are manufactured in countries with lower labor and production costs, allowing sellers to offer competitive prices. The platform also benefits from economies of scale, as it serves millions of customers worldwide, enabling them to negotiate better deals with suppliers and pass on the savings to consumers.
+
+Shenzhen, located in southern China, plays a pivotal role in AliExpress's ability to offer cheap prices. Shenzhen is a special economic zone (SEZ) designated by the Chinese government, designed to promote economic growth and innovation. As an SEZ, Shenzhen enjoys various tax incentives and relaxed regulatory policies. This has attracted a multitude of manufacturers and technology companies to set up operations in the city, leading to a highly competitive market. The concentration of businesses in Shenzhen fosters intense competition among suppliers, which drives down production costs. AliExpress sellers in Shenzhen can tap into this ecosystem of cost-efficient manufacturing and leverage the city's logistics infrastructure for efficient global shipping, ultimately contributing to the platform's ability to provide inexpensive products to consumers around the world.
+
 ## Dropshipping
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+One day during my research I tried to find out if the TH08 temperature sensor or also the other ones I bought (you can find a full list in the [technical documentation](/hacking-temperature-sensors/)) were available outside of Aliexpress. Very quickly I found was I was looking for on Amazon. I could find the the same devices I bought on Aliexpress also on Amazon. The images, names and description differed only slightly but the real difference was in the price. Depending on the device the price on Amazon was up to 2.8x higher than the one on Aliexpress.
+
+| Aliexpress                                                     | Amazon                                        |
+| -------------------------------------------------------------- | --------------------------------------------- |
+| [TH08](https://de.aliexpress.com/item/1005004755749389.html)   | [TH08](https://www.amazon.de/dp/B0B9Y4D4PR)   |
+| [TH01](https://de.aliexpress.com/item/1005005097738278.html)   | [TH01](https://www.amazon.de/dp/B0B8HSJ4WG)   |
+| [KBZ-FR](https://de.aliexpress.com/item/1005004492234396.html) | [KBZ-FR](https://www.amazon.de/dp/B0B3D4Z98S) |
+
+There has been no unmarked sale on Aliexpress during my observation of the products. Accordingly, I have always paid the sales prices indicated and also calculated with those here.
+The high price difference as well as the mismatch in the seller led me to the thesis that the products are sold through Dropshipping.
+
+{/* Short definition what drop shipping is */}
+
+{/* Aliexpress is known for dropshipping */}
+
+Another indicator for the dropshipping thesis is the [Expo website from Tuya](https://expo.tuya.com/). That websites enables you to buy Tuya products in high volumne from certified suppliers. On this website it is also possible to buy the [TH08 wifi sensor](https://expo.tuya.com/product/1077042) even with the ability to customize it.
+
+To provide and distribute this technology via dropshipping
 
 ## Proprietary Technology - <br/> TuyaMCU and Tuya Cloud
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Lastly I want to raise attention to the usage of propiertary technology in these smart home devices. All the devices are equipped with WiFi modules and MCU chips from Tuya. Tuya is a chinese smart home company that provides technologies to others for easier smart home product development. This goes from Cloud Services, over development tools such as SDKs to Wifi chips and MCU chips, which help to easily build compatible PCBs.[^7] [^8] Through offering all these services it becomes very easy as a third party company to develop and dsitribute smart home products. Even though this sounds nice on the first look it is a smart move from Tuya to look the devices into their ecosystem. This means that all the devices are only compatible with the Tuya apps and the Tuya cloud. Therefore all the data that is collected by the devices is also stored on the Tuya cloud. As the offered services by Tuya are proprietary and not open-source in any way, it is not possible to use their service without relying on their cloud.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This is problematic on multiple levels. On one hand companies using their services, always need to respond to changes made by Tuya to their services without having a word in it.
+As a customer this is even more problematic, because sensitive data is stored on a cloud that is not under personal control. As most customers use these devices in a very private space, most likely their homes, this becomes a big risk. Especially because it is already proven that Tuya stores a lot of information about the devices and their usage such as network status, IP adresses, locations and even images or videos, if the device used is equipped with a camera. [^8] [^9]
 
-[^1]: [https://jlcpcb.com/about](https://jlcpcb.com/about)
-[^2]: [This forum post](https://www.elektroda.com/rtvforum/topic4000657.html) was very helpful to identify the components.
-[^3]: Prices are from 2023-09-27.
+The second part of this project, which was also reffered to as the [technical documentation](/hacking-temperature-sensors/), is all about my attempts to free the devices from the Tuya cloud ecosystem, to gain more control over the data usage and using the devices more freely.
+
+[^1]: In the following the temperature sensor will be reffered to with their model number. This is the TH08 temperature sensor.
+[^2]: [https://jlcpcb.com/about](https://jlcpcb.com/about)
+[^3]: [This forum post](https://www.elektroda.com/rtvforum/topic4000657.html) was very helpful to identify the components.
+[^4]: Prices are from 2023-09-27.
+[^5]: https://community.frame.work/t/calculating-the-full-cost-of-a-hardware-product/163
+[^6]: https://www.raypcb.com/manufacture-electronics-cost/
+[^7]: https://www.tuya.com/about
+[^8]: https://www.voanews.com/a/east-asia-pacific_voa-news-china_cybersecurity-experts-worried-chinese-firms-control-smart-devices/6209815.html
+[^9]: https://images.tuyacn.com/app/pAs/tuyaen0930.html

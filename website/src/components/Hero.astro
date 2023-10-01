@@ -1,0 +1,208 @@
+---
+import { Image } from "astro:assets";
+import TH08Frame from "../assets/images/TH08_frame.webp";
+import CircleAnimation from "../assets/images/TH_circle-animation.webp";
+---
+
+<script>
+	let circleAnimationsCollector = document.querySelectorAll(
+		"[data-animation='circle']"
+	);
+	let circleAnimations = Array.from(circleAnimationsCollector).filter(
+		(circleAnimation) => {
+			return circleAnimation.clientWidth != 0;
+		}
+	);
+
+	// Add window resize observer that reselects the circle animations. Only select the circle animations that are visible
+	window.addEventListener("resize", () => {
+		circleAnimationsCollector = document.querySelectorAll(
+			"[data-animation='circle']"
+		);
+		circleAnimations = Array.from(circleAnimationsCollector).filter(
+			(circleAnimation) => {
+				return circleAnimation.clientWidth != 0;
+			}
+		);
+	});
+
+	function playAnimation(circleAnimation, wait) {
+		let srcBackup = circleAnimation.src;
+		circleAnimation.src = "";
+		circleAnimation.classList.remove("opacity-0");
+		circleAnimation.classList.add("opacity-100");
+		circleAnimation.src = srcBackup;
+
+		setTimeout(() => {
+			circleAnimation.classList.remove("opacity-100");
+			circleAnimation.classList.add("opacity-0");
+		}, wait);
+	}
+
+	// Select a random circle animation to play
+	function playRandomAnimation() {
+		let randomCircleAnimation =
+			circleAnimations[Math.floor(Math.random() * circleAnimations.length)];
+
+		playAnimation(randomCircleAnimation, 12000);
+	}
+
+	let runningAnimation;
+
+	// Create an Intersection Observer instance
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				// If the element is in the viewport, start the animation
+				runningAnimation = setInterval(playRandomAnimation, 16000);
+			} else {
+				// If the element is not in the viewport, stop the animation
+				clearInterval(runningAnimation);
+			}
+		});
+	});
+
+	// Observe the element
+	observer.observe(document.querySelector("#hero"));
+</script>
+
+<section
+	style="background: radial-gradient(
+	#f5f5f5 0%, 
+	rgba(245, 245, 245, 0.96) 10%, 
+	rgba(245, 245, 245, 0.94) 20%,
+	rgba(245, 245, 245, 0.87) 30%, 
+	rgba(245, 245, 245, 0.71) 70%, 
+	rgba(245, 245, 245, 0) 100%) 
+	center center / cover no-repeat, url(/whats-worth_hero.webp) center center / cover no-repeat"
+	class="w-full h-screen flex justify-center items-center"
+	id="hero"
+>
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+		<div class="w-auto h-[45vh] md:h-[35vh] lg:h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="block w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div
+			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
+		>
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div
+			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
+		>
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div
+			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
+		>
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div class="hidden lg:block w-auto lg:h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+	</div>
+</section>
+
+<style></style>
