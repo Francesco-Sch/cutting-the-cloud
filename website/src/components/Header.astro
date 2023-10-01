@@ -67,27 +67,29 @@
 	function hideHeaderOnScroll() {
 		const header = document.querySelector("header");
 
-		let lastScroll = 0;
+		let lastScroll = window.scrollY;
 
 		window.addEventListener("scroll", () => {
 			const currentScroll = window.scrollY;
 
+			// If current scroll is less than 1200, reset header style and update lastScroll
 			if (currentScroll <= 1200) {
-				header?.style?.removeProperty("transform");
+				header.style.transform = "translateY(0)";
+				lastScroll = currentScroll;
 				return;
 			}
 
-			if (currentScroll > lastScroll && !header?.style.transform) {
+			// If scrolled down
+			if (currentScroll > lastScroll) {
 				header.style.transform = "translateY(-100%)";
 			}
-
-			if (currentScroll < lastScroll && header?.style.transform) {
+			// If scrolled up
+			else if (currentScroll < lastScroll) {
 				header.style.transform = "translateY(0)";
 			}
 
-			// lastScroll needs to be minimum 1400
-			// otherwise the header will be hidden when scrolling up
-			lastScroll = Math.max(currentScroll, 1200);
+			// Update lastScroll for the next event
+			lastScroll = currentScroll;
 		});
 	}
 
