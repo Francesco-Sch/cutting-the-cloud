@@ -57,6 +57,88 @@
 		listening: false,
 	});
 	gradientLayer.add(gradient);
+
+	let thLayer = new Konva.Layer();
+	hero.add(thLayer);
+
+	function calculatePosition(index, total, itemSize, spacing) {
+		return (itemSize + spacing) * index;
+	}
+
+	const imageGrid = [[], [], []]; // Initialize a 3x3 grid
+	const gridSize = 3;
+
+	Konva.Image.fromURL("/TH08_frame.webp", (img) => {
+		const spacing = 25; // Set the spacing between images
+		const outerSpacing = 50; // Set the spacing around the grid
+		const availableSize =
+			Math.min(hero.width(), hero.height()) -
+			2 * outerSpacing -
+			(gridSize - 1) * spacing;
+		const itemSize = availableSize / gridSize;
+		const startX =
+			(hero.width() - (availableSize + (gridSize - 1) * spacing)) / 2;
+		const startY =
+			(hero.height() - (availableSize + (gridSize - 1) * spacing)) / 2;
+
+		for (let row = 0; row < gridSize; row++) {
+			for (let column = 0; column < gridSize; column++) {
+				let thImg = img.clone({
+					x: startX + calculatePosition(column, gridSize, itemSize, spacing),
+					y: startY + calculatePosition(row, gridSize, itemSize, spacing),
+					width: itemSize,
+					height: itemSize,
+					listening: false,
+				});
+				thLayer.add(thImg);
+				imageGrid[row][column] = thImg; // Store image object in the grid
+			}
+		}
+	});
+
+	function startPulsatingCircle(intervalTime) {
+		setInterval(() => {
+			// Choose a random row and column for the circle to appear
+			const randomRow = Math.floor(Math.random() * gridSize);
+			const randomColumn = Math.floor(Math.random() * gridSize);
+
+			// Get the position and size from the corresponding image in the grid
+			const img = imageGrid[randomRow][randomColumn];
+			const xPosition = img.x();
+			const yPosition = img.y();
+			const size = img.width();
+
+			// Create a circle and add it to a new layer above the image layer
+			const circle = new Konva.Circle({
+				x: xPosition + size / 2,
+				y: yPosition + size / 2,
+				radius: size / 5,
+				fill: "red",
+				opacity: 0.8,
+			});
+
+			const animLayer = new Konva.Layer();
+			animLayer.add(circle);
+			hero.add(animLayer);
+
+			// Create the animation to pulsate the circle
+			const anim = new Konva.Animation((frame) => {
+				const scale = Math.sin((frame.time * 2 * Math.PI) / 2000) + 1; // Change 2000 to adjust speed
+				circle.scale({ x: scale, y: scale });
+			}, animLayer);
+
+			anim.start();
+
+			// Stop the animation and remove the circle after 2 seconds
+			setTimeout(() => {
+				anim.stop();
+				animLayer.destroy();
+			}, 2000); // Duration of the circle appearance
+		}, intervalTime);
+	}
+
+	// Start the pulsating circle animation with an interval of 5 seconds
+	startPulsatingCircle(5000);
 </script>
 
 <section class="w-full h-screen" id="hero"></section>

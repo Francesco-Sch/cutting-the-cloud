@@ -20,7 +20,9 @@ const { frontmatter } = Astro.props;
 		<main class="main" transition:name="content">
 			<Hero />
 
-			<article class="content max-w-none p-2 md:p-3 2xl:p-4">
+			<article
+				class="content max-w-none p-2 md:p-3 2xl:p-4 mt-10 md.mt-12 2xl:mt-16"
+			>
 				<slot />
 			</article>
 		</main>
