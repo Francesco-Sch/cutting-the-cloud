@@ -1,168 +1,50 @@
 ---
 import { Image } from "astro:assets";
 import TH08Frame from "../assets/images/TH08_frame.webp";
+import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 ---
 
 <script>
-	// import Konva from "konva";
+	const circleAnimations = document.querySelectorAll(
+		"[data-animation='circle']"
+	);
 
-	// const TH_GRID_SIZE = 3;
-	// const INTERVAL_TIME = 20000;
+	function playAnimation(circleAnimation, wait) {
+		let srcBackup = circleAnimation.src;
+		circleAnimation.src = "";
+		circleAnimation.classList.remove("opacity-0");
+		circleAnimation.classList.add("opacity-100");
+		circleAnimation.src = srcBackup;
 
-	// function createLayer(stage) {
-	// 	const layer = new Konva.Layer();
-	// 	stage.add(layer);
-	// 	return layer;
-	// }
+		setTimeout(() => {
+			circleAnimation.classList.remove("opacity-100");
+			circleAnimation.classList.add("opacity-0");
+		}, wait);
+	}
 
-	// let heroContainer = document.querySelector("#hero");
-	// let hero = new Konva.Stage({
-	// 	container: "hero",
-	// 	width: heroContainer.offsetWidth,
-	// 	height: heroContainer.offsetHeight,
-	// });
-	// let bgLayer = createLayer(hero);
-	// let gradientLayer = createLayer(hero);
-	// let animLayer = createLayer(hero);
-	// let thLayer = createLayer(hero);
+	// Select a random circle animation to play
+	function playRandomAnimation() {
+		let randomCircleAnimation =
+			circleAnimations[Math.floor(Math.random() * circleAnimations.length)];
 
-	// // BACKGROUND LAYER
-	// Konva.Image.fromURL("/whats-worth_hero.webp", (img) => {
-	// 	img.setAttrs({
-	// 		x: 0,
-	// 		y: 0,
-	// 		width: hero.width(),
-	// 		height: (hero.width() / img.width()) * img.height(),
-	// 		listening: false,
-	// 	});
+		playAnimation(randomCircleAnimation, 12000);
+	}
 
-	// 	bgLayer.add(img);
-	// });
+	// Create an Intersection Observer instance
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				// If the element is in the viewport, start the animation
+				setInterval(playRandomAnimation, 24000);
+			} else {
+				// If the element is not in the viewport, stop the animation
+				clearInterval();
+			}
+		});
+	});
 
-	// // GRADIENT LAYER
-	// let gradient = new Konva.Circle({
-	// 	x: hero.width() / 2,
-	// 	y: hero.height() / 2,
-	// 	radius: (hero.width() / 10) * 6,
-	// 	fillRadialGradientStartPoint: { x: 0, y: 0 },
-	// 	fillRadialGradientStartRadius: 0,
-	// 	fillRadialGradientEndPoint: { x: 0, y: 0 },
-	// 	fillRadialGradientEndRadius: (hero.width() / 10) * 6,
-	// 	fillRadialGradientColorStops: [
-	// 		0,
-	// 		"#f5f5f5",
-	// 		0.1,
-	// 		"#f5f5f5f5",
-	// 		0.2,
-	// 		"#f5f5f5f0",
-	// 		0.3,
-	// 		"#f5f5f5de",
-	// 		0.7,
-	// 		"#f5f5f5b5",
-	// 		1,
-	// 		"#f5f5f500",
-	// 	],
-
-	// 	listening: false,
-	// });
-	// gradientLayer.add(gradient);
-
-	// // TH LAYER
-	// const imageGrid = [[], [], []]; // Initialize a 3x3 grid
-	// function calculatePosition(index, total, itemSize, spacing) {
-	// 	return (itemSize + spacing) * index;
-	// }
-
-	// Konva.Image.fromURL("/TH08_frame.webp", (img) => {
-	// 	const spacing = 25; // Set the spacing between images
-	// 	const outerSpacing = 50; // Set the spacing around the grid
-	// 	const availableSize =
-	// 		Math.min(hero.width(), hero.height()) -
-	// 		2 * outerSpacing -
-	// 		(TH_GRID_SIZE - 1) * spacing;
-	// 	const itemSize = availableSize / TH_GRID_SIZE;
-	// 	const startX =
-	// 		(hero.width() - (availableSize + (TH_GRID_SIZE - 1) * spacing)) / 2;
-	// 	const startY =
-	// 		(hero.height() - (availableSize + (TH_GRID_SIZE - 1) * spacing)) / 2;
-
-	// 	for (let row = 0; row < TH_GRID_SIZE; row++) {
-	// 		for (let column = 0; column < TH_GRID_SIZE; column++) {
-	// 			let thImg = img.clone({
-	// 				x:
-	// 					startX + calculatePosition(column, TH_GRID_SIZE, itemSize, spacing),
-	// 				y: startY + calculatePosition(row, TH_GRID_SIZE, itemSize, spacing),
-	// 				width: itemSize,
-	// 				height: itemSize,
-	// 				listening: false,
-	// 			});
-	// 			thLayer.add(thImg);
-	// 			imageGrid[row][column] = thImg; // Store image object in the grid
-	// 		}
-	// 	}
-
-	// 	// Initially place the random gif
-	// 	placeRandomGif();
-	// });
-
-	// // Load the gif
-	// function placeRandomGif() {
-	// 	let randomDuration = 10000;
-
-	// 	// Choose random row and column
-	// 	let randomRow = Math.floor(Math.random() * TH_GRID_SIZE);
-	// 	let randomColumn = Math.floor(Math.random() * TH_GRID_SIZE);
-
-	// 	let thImg = imageGrid[randomRow][randomColumn];
-
-	// 	console.log(thImg);
-
-	// 	let gifAnimation = document.createElement("canvas");
-
-	// 	function onDrawFrame(ctx, frame) {
-	// 		gifAnimation.width = thImg.attrs.width;
-	// 		gifAnimation.height = thImg.attrs.height;
-
-	// 		ctx.globalCompositeOperation = "source-over"; // Ensure the default composite operation is set
-
-	// 		const ratio = Math.min(
-	// 			thImg.attrs.width / frame.buffer.width,
-	// 			thImg.attrs.height / frame.buffer.height
-	// 		);
-	// 		const width = frame.buffer.width * ratio;
-	// 		const height = frame.buffer.height * ratio;
-	// 		const x = (thImg.attrs.width - width) / 2;
-	// 		const y = (thImg.attrs.height - height) / 2;
-
-	// 		ctx.clearRect(0, 0, thImg.attrs.width, thImg.attrs.height); // Clear the canvas
-	// 		ctx.drawImage(frame.buffer, x, y, width, height);
-	// 		animLayer.batchDraw(); // Redraw the layer
-	// 	}
-
-	// 	gifler("/TH_circle-animation.gif").frames(gifAnimation, onDrawFrame);
-
-	// 	// Create Konva.Image from the canvas
-	// 	let gifImage = new Konva.Image({
-	// 		x: thImg.attrs.x,
-	// 		y: thImg.attrs.y,
-	// 		image: gifAnimation,
-	// 		width: thImg.attrs.width,
-	// 		height: thImg.attrs.height,
-	// 		listening: false,
-	// 	});
-
-	// 	animLayer.add(gifImage);
-	// 	animLayer.batchDraw(); // Refresh the layer to make the gif visible
-
-	// 	// Set the timeout to remove the gif after the specified duration
-	// 	setTimeout(() => {
-	// 		gifImage.remove();
-	// 		animLayer.batchDraw(); // Refresh the layer to remove the gif
-	// 	}, INTERVAL_TIME);
-	// }
-
-	// // Optionally, repeat the process every INTERVAL_TIME
-	// setInterval(placeRandomGif, INTERVAL_TIME);
+	// Observe the element
+	observer.observe(document.querySelector("#hero"));
 </script>
 
 <section
@@ -175,34 +57,125 @@ import TH08Frame from "../assets/images/TH08_frame.webp";
 	rgba(245, 245, 245, 0) 100%) 
 	center center / cover no-repeat, url(/whats-worth_hero.webp) center center / cover no-repeat"
 	class="w-full h-screen flex justify-center items-center"
+	id="hero"
 >
 	<div class="grid grid-cols-3 gap-4">
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square">
-			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		<div class="w-auto h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
 		</div>
 	</div>
 </section>
