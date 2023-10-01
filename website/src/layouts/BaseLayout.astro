@@ -2,6 +2,7 @@
 // Components
 import CommonHead from "../components/CommonHead.astro";
 import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
 
 // Styles
 import "@fontsource-variable/source-serif-4";
@@ -16,8 +17,14 @@ const { frontmatter } = Astro.props;
 	<body class="bg-neutral-100 mouse-cursor-gradient-tracking">
 		<Header />
 
-		<main class="main max-w-none p-2 md:p-3 2xl:p-4" transition:name="content">
-			<slot />
+		<main class="main" transition:name="content">
+			<Hero />
+
+			<article
+				class="content max-w-none p-2 md:p-3 2xl:p-4 mt-10 md.mt-12 2xl:mt-16"
+			>
+				<slot />
+			</article>
 		</main>
 	</body>
 </html>
