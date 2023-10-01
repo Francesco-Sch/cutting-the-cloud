@@ -1,208 +1,210 @@
 ---
-
+import { Image } from "astro:assets";
+import TH08Frame from "../assets/images/TH08_frame.webp";
 ---
 
 <script>
-	import Konva from "konva";
+	// import Konva from "konva";
 
-	let heroContainer = document.querySelector("#hero");
+	// const TH_GRID_SIZE = 3;
+	// const INTERVAL_TIME = 20000;
 
-	let hero = new Konva.Stage({
-		container: "hero",
-		width: heroContainer.offsetWidth,
-		height: heroContainer.offsetHeight,
-	});
+	// function createLayer(stage) {
+	// 	const layer = new Konva.Layer();
+	// 	stage.add(layer);
+	// 	return layer;
+	// }
 
-	let bgLayer = new Konva.Layer();
-	hero.add(bgLayer);
+	// let heroContainer = document.querySelector("#hero");
+	// let hero = new Konva.Stage({
+	// 	container: "hero",
+	// 	width: heroContainer.offsetWidth,
+	// 	height: heroContainer.offsetHeight,
+	// });
+	// let bgLayer = createLayer(hero);
+	// let gradientLayer = createLayer(hero);
+	// let animLayer = createLayer(hero);
+	// let thLayer = createLayer(hero);
 
-	Konva.Image.fromURL("/whats-worth_hero.webp", (img) => {
-		img.setAttrs({
-			x: 0,
-			y: 0,
-			width: hero.width(),
-			height: (hero.width() / img.width()) * img.height(),
-			listening: false,
-		});
+	// // BACKGROUND LAYER
+	// Konva.Image.fromURL("/whats-worth_hero.webp", (img) => {
+	// 	img.setAttrs({
+	// 		x: 0,
+	// 		y: 0,
+	// 		width: hero.width(),
+	// 		height: (hero.width() / img.width()) * img.height(),
+	// 		listening: false,
+	// 	});
 
-		bgLayer.add(img);
-	});
+	// 	bgLayer.add(img);
+	// });
 
-	let gradientLayer = new Konva.Layer();
-	hero.add(gradientLayer);
+	// // GRADIENT LAYER
+	// let gradient = new Konva.Circle({
+	// 	x: hero.width() / 2,
+	// 	y: hero.height() / 2,
+	// 	radius: (hero.width() / 10) * 6,
+	// 	fillRadialGradientStartPoint: { x: 0, y: 0 },
+	// 	fillRadialGradientStartRadius: 0,
+	// 	fillRadialGradientEndPoint: { x: 0, y: 0 },
+	// 	fillRadialGradientEndRadius: (hero.width() / 10) * 6,
+	// 	fillRadialGradientColorStops: [
+	// 		0,
+	// 		"#f5f5f5",
+	// 		0.1,
+	// 		"#f5f5f5f5",
+	// 		0.2,
+	// 		"#f5f5f5f0",
+	// 		0.3,
+	// 		"#f5f5f5de",
+	// 		0.7,
+	// 		"#f5f5f5b5",
+	// 		1,
+	// 		"#f5f5f500",
+	// 	],
 
-	let gradient = new Konva.Circle({
-		x: hero.width() / 2,
-		y: hero.height() / 2,
-		radius: (hero.width() / 10) * 6,
-		fillRadialGradientStartPoint: { x: 0, y: 0 },
-		fillRadialGradientStartRadius: 0,
-		fillRadialGradientEndPoint: { x: 0, y: 0 },
-		fillRadialGradientEndRadius: (hero.width() / 10) * 6,
-		fillRadialGradientColorStops: [
-			0,
-			"#f5f5f5",
-			0.1,
-			"#f5f5f5f5",
-			0.2,
-			"#f5f5f5f0",
-			0.3,
-			"#f5f5f5de",
-			0.7,
-			"#f5f5f5b5",
-			1,
-			"#f5f5f500",
-		],
+	// 	listening: false,
+	// });
+	// gradientLayer.add(gradient);
 
-		listening: false,
-	});
-	gradientLayer.add(gradient);
+	// // TH LAYER
+	// const imageGrid = [[], [], []]; // Initialize a 3x3 grid
+	// function calculatePosition(index, total, itemSize, spacing) {
+	// 	return (itemSize + spacing) * index;
+	// }
 
-	let thLayer = new Konva.Layer();
+	// Konva.Image.fromURL("/TH08_frame.webp", (img) => {
+	// 	const spacing = 25; // Set the spacing between images
+	// 	const outerSpacing = 50; // Set the spacing around the grid
+	// 	const availableSize =
+	// 		Math.min(hero.width(), hero.height()) -
+	// 		2 * outerSpacing -
+	// 		(TH_GRID_SIZE - 1) * spacing;
+	// 	const itemSize = availableSize / TH_GRID_SIZE;
+	// 	const startX =
+	// 		(hero.width() - (availableSize + (TH_GRID_SIZE - 1) * spacing)) / 2;
+	// 	const startY =
+	// 		(hero.height() - (availableSize + (TH_GRID_SIZE - 1) * spacing)) / 2;
 
-	function calculatePosition(index, total, itemSize, spacing) {
-		return (itemSize + spacing) * index;
-	}
+	// 	for (let row = 0; row < TH_GRID_SIZE; row++) {
+	// 		for (let column = 0; column < TH_GRID_SIZE; column++) {
+	// 			let thImg = img.clone({
+	// 				x:
+	// 					startX + calculatePosition(column, TH_GRID_SIZE, itemSize, spacing),
+	// 				y: startY + calculatePosition(row, TH_GRID_SIZE, itemSize, spacing),
+	// 				width: itemSize,
+	// 				height: itemSize,
+	// 				listening: false,
+	// 			});
+	// 			thLayer.add(thImg);
+	// 			imageGrid[row][column] = thImg; // Store image object in the grid
+	// 		}
+	// 	}
 
-	const imageGrid = [[], [], []]; // Initialize a 3x3 grid
-	const gridSize = 3;
+	// 	// Initially place the random gif
+	// 	placeRandomGif();
+	// });
 
-	Konva.Image.fromURL("/TH08_frame.webp", (img) => {
-		const spacing = 25; // Set the spacing between images
-		const outerSpacing = 50; // Set the spacing around the grid
-		const availableSize =
-			Math.min(hero.width(), hero.height()) -
-			2 * outerSpacing -
-			(gridSize - 1) * spacing;
-		const itemSize = availableSize / gridSize;
-		const startX =
-			(hero.width() - (availableSize + (gridSize - 1) * spacing)) / 2;
-		const startY =
-			(hero.height() - (availableSize + (gridSize - 1) * spacing)) / 2;
+	// // Load the gif
+	// function placeRandomGif() {
+	// 	let randomDuration = 10000;
 
-		for (let row = 0; row < gridSize; row++) {
-			for (let column = 0; column < gridSize; column++) {
-				let thImg = img.clone({
-					x: startX + calculatePosition(column, gridSize, itemSize, spacing),
-					y: startY + calculatePosition(row, gridSize, itemSize, spacing),
-					width: itemSize,
-					height: itemSize,
-					listening: false,
-				});
-				thLayer.add(thImg);
-				imageGrid[row][column] = thImg; // Store image object in the grid
-			}
-		}
-	});
+	// 	// Choose random row and column
+	// 	let randomRow = Math.floor(Math.random() * TH_GRID_SIZE);
+	// 	let randomColumn = Math.floor(Math.random() * TH_GRID_SIZE);
 
-	const animLayer = new Konva.Layer();
+	// 	let thImg = imageGrid[randomRow][randomColumn];
 
-	function startRingAnimation(intervalTime) {
-		setInterval(() => {
-			// Choose a random row and column for the ring to appear
-			const randomRow = Math.floor(Math.random() * gridSize);
-			const randomColumn = Math.floor(Math.random() * gridSize);
+	// 	console.log(thImg);
 
-			// Get the position and size from the corresponding image in the grid
-			const img = imageGrid[randomRow][randomColumn];
-			if (!img) return;
+	// 	let gifAnimation = document.createElement("canvas");
 
-			const xPosition = img.x();
-			const yPosition = img.y();
-			const thSize = img.width();
+	// 	function onDrawFrame(ctx, frame) {
+	// 		gifAnimation.width = thImg.attrs.width;
+	// 		gifAnimation.height = thImg.attrs.height;
 
-			// Calculate the center of the image
-			const centerX = xPosition + thSize / 2;
-			const centerY = yPosition + thSize / 2;
+	// 		ctx.globalCompositeOperation = "source-over"; // Ensure the default composite operation is set
 
-			// Square size
-			const sqSize = thSize / 20;
+	// 		const ratio = Math.min(
+	// 			thImg.attrs.width / frame.buffer.width,
+	// 			thImg.attrs.height / frame.buffer.height
+	// 		);
+	// 		const width = frame.buffer.width * ratio;
+	// 		const height = frame.buffer.height * ratio;
+	// 		const x = (thImg.attrs.width - width) / 2;
+	// 		const y = (thImg.attrs.height - height) / 2;
 
-			// Ring parameters
-			let outerRadius = 0;
-			const innerRadius = 0;
+	// 		ctx.clearRect(0, 0, thImg.attrs.width, thImg.attrs.height); // Clear the canvas
+	// 		ctx.drawImage(frame.buffer, x, y, width, height);
+	// 		animLayer.batchDraw(); // Redraw the layer
+	// 	}
 
-			// Create squares
-			for (let y = 0; y < thSize; y += sqSize) {
-				for (let x = 0; x < thSize; x += sqSize) {
-					const square = new Konva.Rect({
-						x: x + xPosition,
-						y: y + yPosition,
-						width: sqSize,
-						height: sqSize,
-						fill: "#171717",
-						visible: false, // Initially set all squares to invisible
-					});
-					animLayer.add(square);
+	// 	gifler("/TH_circle-animation.gif").frames(gifAnimation, onDrawFrame);
 
-					// Calculate distance from center to the square
-					const dist = Math.hypot(
-						centerX - (x + sqSize / 2),
-						centerY - (y + sqSize / 2)
-					);
+	// 	// Create Konva.Image from the canvas
+	// 	let gifImage = new Konva.Image({
+	// 		x: thImg.attrs.x,
+	// 		y: thImg.attrs.y,
+	// 		image: gifAnimation,
+	// 		width: thImg.attrs.width,
+	// 		height: thImg.attrs.height,
+	// 		listening: false,
+	// 	});
 
-					// If distance is within the ring's radius, make the square visible
-					if (dist < outerRadius && dist > innerRadius) {
-						square.visible(true);
-					}
-				}
-			}
+	// 	animLayer.add(gifImage);
+	// 	animLayer.batchDraw(); // Refresh the layer to make the gif visible
 
-			// Animation to grow the ring
-			const anim = new Konva.Animation((frame) => {
-				const children = animLayer.getChildren();
-				for (let i = 0; i < children.length; i++) {
-					const child = children[i];
-					const x = child.x() + sqSize / 2;
-					const y = child.y() + sqSize / 2;
-					const dist = Math.hypot(centerX - x, centerY - y);
+	// 	// Set the timeout to remove the gif after the specified duration
+	// 	setTimeout(() => {
+	// 		gifImage.remove();
+	// 		animLayer.batchDraw(); // Refresh the layer to remove the gif
+	// 	}, INTERVAL_TIME);
+	// }
 
-					// Circle to Square Transition
-					if (outerRadius <= thSize / 2) {
-						if (dist < outerRadius && dist > innerRadius) {
-							child.visible(true);
-						} else {
-							child.visible(false);
-						}
-					} else {
-						const offset = outerRadius - sqSize * 2; // Adjust this value to control the final size
-						// Calculate the boundaries for square shape
-						const leftBoundary = centerX - offset;
-						const rightBoundary = centerX + offset;
-						const topBoundary = centerY - offset;
-						const bottomBoundary = centerY + offset;
-
-						if (
-							x > leftBoundary &&
-							x < rightBoundary &&
-							y > topBoundary &&
-							y < bottomBoundary
-						) {
-							child.visible(true);
-						} else {
-							child.visible(false);
-						}
-					}
-				}
-				outerRadius += 1;
-
-				if (outerRadius > thSize / 2 + sqSize) {
-					// you can adjust this value
-					anim.stop();
-				}
-			}, animLayer);
-
-			anim.start();
-		}, intervalTime);
-	}
-
-	// Start the ring animation with an interval of 5 seconds
-	startRingAnimation(3000);
-
-	hero.add(animLayer);
-	hero.add(thLayer);
+	// // Optionally, repeat the process every INTERVAL_TIME
+	// setInterval(placeRandomGif, INTERVAL_TIME);
 </script>
 
-<section class="w-full h-screen" id="hero"></section>
+<section
+	style="background: radial-gradient(
+	#f5f5f5 0%, 
+	rgba(245, 245, 245, 0.96) 10%, 
+	rgba(245, 245, 245, 0.94) 20%,
+	rgba(245, 245, 245, 0.87) 30%, 
+	rgba(245, 245, 245, 0.71) 70%, 
+	rgba(245, 245, 245, 0) 100%) 
+	center center / cover no-repeat, url(/whats-worth_hero.webp) center center / cover no-repeat"
+	class="w-full h-screen flex justify-center items-center"
+>
+	<div class="grid grid-cols-3 gap-4">
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+		<div class="w-auto h-[25vh] aspect-square">
+			<Image src={TH08Frame} alt="TH08 Frame" class="w-full h-full" />
+		</div>
+	</div>
+</section>
 
 <style></style>
