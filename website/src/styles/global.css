@@ -1,5 +1,8 @@
 * {
 	@apply selection:bg-orange-200;
+
+	scrollbar-width: thin;
+	scrollbar-color: #171717 transparent;
 }
 html {
 	@apply scroll-smooth;
