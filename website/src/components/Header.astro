@@ -2,7 +2,9 @@
 
 ---
 
-<header class="flex fixed w-full p-2 md:p-3 2xl:p-4 top-0 text-orange-700 z-50">
+<header
+	class="flex fixed w-full p-2 md:p-3 2xl:p-4 top-0 text-orange-700 z-50 transition-all"
+>
 	<p class="flex-grow font-display text-lg min-w-fit">
 		<span class="group">
 			W<span class="hidden sm:group-hover:inline-block">hat's</span> W<span
@@ -38,6 +40,7 @@
 </header>
 
 <script>
+	// Hide links that are not on the current page
 	document.addEventListener("astro:page-load", () => {
 		const links = document.querySelectorAll("nav a");
 		const dots = document.querySelectorAll("nav .animate-pulse");
@@ -58,5 +61,37 @@
 				dot.classList.add("invisible");
 			}
 		});
+	});
+
+	// Move header out of viewport when scrolling down
+	function hideHeaderOnScroll() {
+		const header = document.querySelector("header");
+
+		let lastScroll = 0;
+
+		window.addEventListener("scroll", () => {
+			const currentScroll = window.scrollY;
+
+			if (currentScroll <= 1200) {
+				header?.style?.removeProperty("transform");
+				return;
+			}
+
+			if (currentScroll > lastScroll && !header?.style.transform) {
+				header.style.transform = "translateY(-100%)";
+			}
+
+			if (currentScroll < lastScroll && header?.style.transform) {
+				header.style.transform = "translateY(0)";
+			}
+
+			// lastScroll needs to be minimum 1400
+			// otherwise the header will be hidden when scrolling up
+			lastScroll = Math.max(currentScroll, 1200);
+		});
+	}
+
+	document.addEventListener("astro:page-load", () => {
+		hideHeaderOnScroll();
 	});
 </script>
