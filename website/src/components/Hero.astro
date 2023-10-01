@@ -19,7 +19,7 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 		circleAnimationsCollector = document.querySelectorAll(
 			"[data-animation='circle']"
 		);
-		circleAnimations = Array.from(circleAnimationsBuffer).filter(
+		circleAnimations = Array.from(circleAnimationsCollector).filter(
 			(circleAnimation) => {
 				return circleAnimation.clientWidth != 0;
 			}
@@ -47,15 +47,17 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 		playAnimation(randomCircleAnimation, 12000);
 	}
 
+	let runningAnimation;
+
 	// Create an Intersection Observer instance
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
 			if (entry.isIntersecting) {
 				// If the element is in the viewport, start the animation
-				setInterval(playRandomAnimation, 16000);
+				runningAnimation = setInterval(playRandomAnimation, 16000);
 			} else {
 				// If the element is not in the viewport, stop the animation
-				clearInterval();
+				clearInterval(runningAnimation);
 			}
 		});
 	});
