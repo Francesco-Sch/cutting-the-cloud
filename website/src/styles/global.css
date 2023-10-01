@@ -1,6 +1,9 @@
 * {
 	@apply selection:bg-orange-200;
 }
+html {
+	@apply scroll-smooth;
+}
 
 /* Footnotes */
 .footnotes p,

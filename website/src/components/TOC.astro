@@ -1,0 +1,80 @@
+---
+const { headings } = Astro.props;
+
+let depth2Headings = headings.filter(
+	(heading) => heading.depth === 2 || heading.depth === 1
+);
+depth2Headings = depth2Headings.filter(
+	(heading) => heading.text !== "Footnotes"
+);
+---
+
+<script>
+	const headings = Array.from(document.querySelectorAll("h1, h2")).filter(
+		(heading) => {
+			if (heading.textContent) {
+				return heading.textContent !== "Footnotes";
+			}
+			return false;
+		}
+	);
+
+	let lastHeading: HTMLElement | null = null;
+	let lastScrollY = window.scrollY;
+	const observer = new IntersectionObserver(
+		function (entries) {
+			entries.forEach((entry) => {
+				const id = entry.target.id;
+				const tocLink = document.querySelector(`#toc a[href="#${id}"]`);
+
+				const scrollingDown = window.scrollY > lastScrollY;
+				lastScrollY = window.scrollY;
+
+				if (entry.isIntersecting && scrollingDown) {
+					tocLink?.classList.add("text-orange-700");
+					if (lastHeading && lastHeading !== tocLink) {
+						lastHeading.classList.remove("text-orange-700");
+					}
+					lastHeading = tocLink as HTMLElement;
+				} else if (!scrollingDown && entry.intersectionRatio < 0.5) {
+					tocLink?.classList.remove("text-orange-700");
+					const prevHeadingIndex =
+						headings.indexOf(entry.target as HTMLElement) - 1;
+					if (prevHeadingIndex >= 0) {
+						const prevHeadingId = headings[prevHeadingIndex].id;
+						const prevTocLink = document.querySelector(
+							`#toc a[href="#${prevHeadingId}"]`
+						);
+						prevTocLink?.classList.add("text-orange-700");
+						if (lastHeading && lastHeading !== prevTocLink) {
+							lastHeading.classList.remove("text-orange-700");
+						}
+						lastHeading = prevTocLink as HTMLElement;
+					}
+				}
+			});
+		},
+		{ threshold: [0, 0.5] } // using two threshold values to ensure that the callback runs when the target starts and stops intersecting
+	);
+
+	headings.forEach((heading) => {
+		observer.observe(heading);
+	});
+</script>
+
+<ol
+	id="toc"
+	class="fixed left-0 bottom-0 w-full p-4 pt-44 flex justify-between bg-gradient-to-t from-neutral-100 to-transparent"
+>
+	{
+		depth2Headings.map((heading) => (
+			<li>
+				<a class="font-mono font-medium text-sm" href={`#${heading.slug}`}>
+					{heading.text}
+				</a>
+			</li>
+		))
+	}
+</ol>
+
+<style></style>
