@@ -16,10 +16,13 @@ const { frontmatter } = Astro.props;
 	<CommonHead title={`What's Worth? - ${frontmatter.title}`} />
 	<body class="bg-neutral-100 mouse-cursor-gradient-tracking">
 		<Header />
-		<Hero />
 
-		<main class="main max-w-none p-2 md:p-3 2xl:p-4" transition:name="content">
-			<slot />
+		<main class="main" transition:name="content">
+			<Hero />
+
+			<article class="content max-w-none p-2 md:p-3 2xl:p-4">
+				<slot />
+			</article>
 		</main>
 	</body>
 </html>
