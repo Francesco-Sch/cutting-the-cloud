@@ -5,9 +5,19 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 ---
 
 <script>
-	const circleAnimations = document.querySelectorAll(
-		"[data-animation='circle']"
-	);
+	let circleAnimations = document.querySelectorAll("[data-animation='circle']");
+
+	// Add window resize observer that reselects the circle animations. Only select the circle animations that are visible
+	window.addEventListener("resize", () => {
+		let circleAnimationsBuffer = document.querySelectorAll(
+			"[data-animation='circle']"
+		);
+		circleAnimations = Array.from(circleAnimationsBuffer).filter(
+			(circleAnimation) => {
+				return circleAnimation.clientWidth != 0;
+			}
+		);
+	});
 
 	function playAnimation(circleAnimation, wait) {
 		let srcBackup = circleAnimation.src;
@@ -35,7 +45,7 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 		entries.forEach((entry) => {
 			if (entry.isIntersecting) {
 				// If the element is in the viewport, start the animation
-				setInterval(playRandomAnimation, 24000);
+				setInterval(playRandomAnimation, 16000);
 			} else {
 				// If the element is not in the viewport, stop the animation
 				clearInterval();
@@ -59,8 +69,23 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 	class="w-full h-screen flex justify-center items-center"
 	id="hero"
 >
-	<div class="grid grid-cols-3 gap-4">
-		<div class="w-auto h-[25vh] aspect-square relative">
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+		<div class="w-auto h-[45vh] md:h-[35vh] lg:h-[25vh] aspect-square relative">
+			<Image
+				src={TH08Frame}
+				alt="TH08 Frame"
+				class="w-full h-full absolute z-20"
+			/>
+			<Image
+				src={CircleAnimation}
+				alt="Circle Animation"
+				data-animation="circle"
+				class="block w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			/>
+		</div>
+		<div
+			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
+		>
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
@@ -73,7 +98,9 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
 			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
+		<div
+			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
+		>
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
@@ -86,7 +113,9 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
 			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
+		<div
+			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
+		>
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
@@ -99,7 +128,7 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
 			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
+		<div class="hidden lg:block w-auto lg:h-[25vh] aspect-square relative">
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
@@ -112,7 +141,7 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
 			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
@@ -125,7 +154,7 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
 			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
@@ -138,7 +167,7 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
 			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
@@ -151,20 +180,7 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
 			/>
 		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
-			<Image
-				src={TH08Frame}
-				alt="TH08 Frame"
-				class="w-full h-full absolute z-20"
-			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
-				data-animation="circle"
-				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
-		</div>
-		<div class="w-auto h-[25vh] aspect-square relative">
+		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
