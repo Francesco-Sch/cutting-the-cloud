@@ -59,7 +59,6 @@
 	gradientLayer.add(gradient);
 
 	let thLayer = new Konva.Layer();
-	hero.add(thLayer);
 
 	function calculatePosition(index, total, itemSize, spacing) {
 		return (itemSize + spacing) * index;
@@ -96,49 +95,112 @@
 		}
 	});
 
-	function startPulsatingCircle(intervalTime) {
+	const animLayer = new Konva.Layer();
+
+	function startRingAnimation(intervalTime) {
 		setInterval(() => {
-			// Choose a random row and column for the circle to appear
+			// Choose a random row and column for the ring to appear
 			const randomRow = Math.floor(Math.random() * gridSize);
 			const randomColumn = Math.floor(Math.random() * gridSize);
 
 			// Get the position and size from the corresponding image in the grid
 			const img = imageGrid[randomRow][randomColumn];
+			if (!img) return;
+
 			const xPosition = img.x();
 			const yPosition = img.y();
-			const size = img.width();
+			const thSize = img.width();
 
-			// Create a circle and add it to a new layer above the image layer
-			const circle = new Konva.Circle({
-				x: xPosition + size / 2,
-				y: yPosition + size / 2,
-				radius: size / 5,
-				fill: "red",
-				opacity: 0.8,
-			});
+			// Calculate the center of the image
+			const centerX = xPosition + thSize / 2;
+			const centerY = yPosition + thSize / 2;
 
-			const animLayer = new Konva.Layer();
-			animLayer.add(circle);
-			hero.add(animLayer);
+			// Square size
+			const sqSize = thSize / 20;
 
-			// Create the animation to pulsate the circle
+			// Ring parameters
+			let outerRadius = 0;
+			const innerRadius = 0;
+
+			// Create squares
+			for (let y = 0; y < thSize; y += sqSize) {
+				for (let x = 0; x < thSize; x += sqSize) {
+					const square = new Konva.Rect({
+						x: x + xPosition,
+						y: y + yPosition,
+						width: sqSize,
+						height: sqSize,
+						fill: "#171717",
+						visible: false, // Initially set all squares to invisible
+					});
+					animLayer.add(square);
+
+					// Calculate distance from center to the square
+					const dist = Math.hypot(
+						centerX - (x + sqSize / 2),
+						centerY - (y + sqSize / 2)
+					);
+
+					// If distance is within the ring's radius, make the square visible
+					if (dist < outerRadius && dist > innerRadius) {
+						square.visible(true);
+					}
+				}
+			}
+
+			// Animation to grow the ring
 			const anim = new Konva.Animation((frame) => {
-				const scale = Math.sin((frame.time * 2 * Math.PI) / 2000) + 1; // Change 2000 to adjust speed
-				circle.scale({ x: scale, y: scale });
+				const children = animLayer.getChildren();
+				for (let i = 0; i < children.length; i++) {
+					const child = children[i];
+					const x = child.x() + sqSize / 2;
+					const y = child.y() + sqSize / 2;
+					const dist = Math.hypot(centerX - x, centerY - y);
+
+					// Circle to Square Transition
+					if (outerRadius <= thSize / 2) {
+						if (dist < outerRadius && dist > innerRadius) {
+							child.visible(true);
+						} else {
+							child.visible(false);
+						}
+					} else {
+						const offset = outerRadius - sqSize * 2; // Adjust this value to control the final size
+						// Calculate the boundaries for square shape
+						const leftBoundary = centerX - offset;
+						const rightBoundary = centerX + offset;
+						const topBoundary = centerY - offset;
+						const bottomBoundary = centerY + offset;
+
+						if (
+							x > leftBoundary &&
+							x < rightBoundary &&
+							y > topBoundary &&
+							y < bottomBoundary
+						) {
+							child.visible(true);
+						} else {
+							child.visible(false);
+						}
+					}
+				}
+				outerRadius += 1;
+
+				if (outerRadius > thSize / 2 + sqSize) {
+					// you can adjust this value
+					anim.stop();
+				}
 			}, animLayer);
 
 			anim.start();
-
-			// Stop the animation and remove the circle after 2 seconds
-			setTimeout(() => {
-				anim.stop();
-				animLayer.destroy();
-			}, 2000); // Duration of the circle appearance
 		}, intervalTime);
 	}
 
-	// Start the pulsating circle animation with an interval of 5 seconds
-	startPulsatingCircle(5000);
+	// Start the ring animation with an interval of 5 seconds
+	startRingAnimation(3000);
+
+	hero.add(animLayer);
+	hero.add(thLayer);
 </script>
 
 <section class="w-full h-screen" id="hero"></section>
