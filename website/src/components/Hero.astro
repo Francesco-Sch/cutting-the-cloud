@@ -5,11 +5,18 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 ---
 
 <script>
-	let circleAnimations = document.querySelectorAll("[data-animation='circle']");
+	let circleAnimationsCollector = document.querySelectorAll(
+		"[data-animation='circle']"
+	);
+	let circleAnimations = Array.from(circleAnimationsCollector).filter(
+		(circleAnimation) => {
+			return circleAnimation.clientWidth != 0;
+		}
+	);
 
 	// Add window resize observer that reselects the circle animations. Only select the circle animations that are visible
 	window.addEventListener("resize", () => {
-		let circleAnimationsBuffer = document.querySelectorAll(
+		circleAnimationsCollector = document.querySelectorAll(
 			"[data-animation='circle']"
 		);
 		circleAnimations = Array.from(circleAnimationsBuffer).filter(
