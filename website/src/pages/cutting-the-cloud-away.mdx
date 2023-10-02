@@ -1,0 +1,51 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Cutting the ☁️ away
+---
+
+# Cutting the ☁️ away
+
+In the beginning the goal of this project, was to tell a visual narrative on the screens of the temperature sensors. Ideally something like you can see on top of the website. Every dot that appears on one of the screen represents one unit that was sold, one person that put energy into this product. Ever ten minutes represents one month of selling.
+
+With this idea in my mind I started on a journey, trying to hack the device for accessing the screen. Everything began with learning about Tuya Convert.
+
+## Learning about Tuya Convert
+
+[Tuya Convert](https://github.com/ct-Open-Source/tuya-convert) is an open-source project for flashing firmware on Tuya-based devices. The hack was found by Michael Steigerwald, founder of the German IT security startup VTRUST, which he presented during a [talk at 35C3 in Leibzig](https://media.ccc.de/v/35c3-9723-smart_home_-_smart_hack).
+After that talk, VTRUST and the German tech magazine c't worked together to make this hack accessible and open-sourced it on GitHub.
+
+In particular [Tuya Convert](https://github.com/ct-Open-Source/tuya-convert) helps you with flashing the [Tasmota firmware](https://tasmota.github.io/docs/) wirelessly (also known as over-the-air). Tasmota is an open-source firmware for devices that are based on an ESPXXXX wifi chip. It enables you to control your devices locally without relying on a cloud service. It also allows you to create automations with your devices or lets you flash customized firmware on them. Tasmota offers a broad range of APIs for datapoints, even ones for screen-based devices like the temperature sensors.
+
+After realizing that screen-based devices could be controlled via Tasmota, I was confident to be able to flash a temperature sensor with custom firmware. To be on the safe side I ordered a selection of different temperature sensors from Aliexpress. In the end, I ended up with the following devices:
+
+- device 01
+- device 02
+
+Some of the devices I ordered are Zigbee devices. Those could not be flashed with Tuya Convert because they do not communicate over a Wifi Protocol but rather over the Zigbee Protocol.
+The other devices worked over Wifi connection and therefore were suitable for the Tuya Convert exploit.
+
+I ran the exploit on all the ordered devices following the instructions on the [README](https://github.com/ct-Open-Source/tuya-convert/blob/master/README.md). Every single one of them failed. On not one device I was able to flash the Tasmota firmware. Through opening the sensors up I learned that none of them were based on an ESPXXXX chip. Instead of relying further on the ESPXXXX chips, Tuya started to build own chips to equip their devices with such as the [CBU](https://developer.tuya.com/en/docs/iot/cbu-module-datasheet?id=Ka07pykl5dk4u) or [CB3S](https://developer.tuya.com/en/docs/iot/cb3s?id=Kai94mec0s076). This was a big set back, as I was not able to flash the BEKEN chips with Tuya Convert.
+
+Luckily there was a new open source project on the horizon.
+
+## Tuya Cloudcutter
+
+Tuya Cloudcutter is somewhat the successor of Tuya Convert for BEKEN based devices. Eventhough it is still pretty young it already supports a lot of devices. It has a similar operating mode as Tuya convert, as it enables someone to flash new firmware on smart home devices over the air.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+## Soldering
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+## tinytuya
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+```bash
+This is how code looks like
+```
+
+## Acknowledgements
