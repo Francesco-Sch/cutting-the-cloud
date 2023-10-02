@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import TH08Frame from "../assets/images/TH08_frame.webp";
-import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 ---
 
 <script>
@@ -27,15 +26,28 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 	});
 
 	function playAnimation(circleAnimation, wait) {
-		let srcBackup = circleAnimation.src;
-		circleAnimation.src = "";
 		circleAnimation.classList.remove("opacity-0");
 		circleAnimation.classList.add("opacity-100");
-		circleAnimation.src = srcBackup;
+
+		// Trigger play of video element
+		circleAnimation.play();
+
+		// Stay on last frame after the animation has finished
+		circleAnimation.addEventListener("timeupdate", () => {
+			if (circleAnimation.currentTime >= circleAnimation.duration - 0.5) {
+				circleAnimation.pause();
+				circleAnimation.currentTime = circleAnimation.duration - 0.5;
+			}
+		});
 
 		setTimeout(() => {
 			circleAnimation.classList.remove("opacity-100");
 			circleAnimation.classList.add("opacity-0");
+
+			setTimeout(() => {
+				// Reset video to beginning
+				circleAnimation.currentTime = 0;
+			}, 500);
 		}, wait);
 	}
 
@@ -74,23 +86,27 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 	rgba(245, 245, 245, 0.87) 30%, 
 	rgba(245, 245, 245, 0.71) 70%, 
 	rgba(245, 245, 245, 0) 100%) 
-	center center / cover no-repeat, url(/whats-worth_hero.webp) center center / cover no-repeat"
+	center center / cover no-repeat, url(/cc_hero.webp) center center / cover no-repeat"
 	class="w-full h-screen flex justify-center items-center"
 	id="hero"
 >
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-		<div class="w-auto h-[45vh] md:h-[35vh] lg:h-[25vh] aspect-square relative">
+		<div
+			class="block w-auto h-[45vh] md:h-[35vh] lg:h-[25vh] aspect-square relative"
+		>
 			<Image
 				src={TH08Frame}
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
-				class="block w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+				src="/TH_circle-animation.webm"
+				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div
 			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
@@ -100,12 +116,13 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div
 			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
@@ -115,12 +132,13 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div
 			class="hidden md:block w-auto md:h-[35vh] lg:h-[25vh] aspect-square relative"
@@ -130,12 +148,13 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div class="hidden lg:block w-auto lg:h-[25vh] aspect-square relative">
 			<Image
@@ -143,12 +162,12 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
@@ -156,12 +175,13 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
@@ -169,12 +189,13 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
@@ -182,12 +203,13 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 		<div class="hidden lg:block w-auto h-[25vh] aspect-square relative">
 			<Image
@@ -195,12 +217,13 @@ import CircleAnimation from "../assets/images/TH_circle-animation.webp";
 				alt="TH08 Frame"
 				class="w-full h-full absolute z-20"
 			/>
-			<Image
-				src={CircleAnimation}
-				alt="Circle Animation"
+			<video
+				autoplay
 				data-animation="circle"
 				class="w-[90%] h-[90%] absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity"
-			/>
+			>
+				<source src="/TH_circle-animation.webm" type="video/webm" />
+			</video>
 		</div>
 	</div>
 </section>
