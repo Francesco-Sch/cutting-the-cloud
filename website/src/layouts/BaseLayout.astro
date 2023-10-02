@@ -3,14 +3,13 @@
 import CommonHead from "../components/CommonHead.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
-import TOC from "../components/TOC.astro";
 
 // Styles
 import "@fontsource-variable/source-serif-4";
 import "../styles/index.css";
 
 // Props
-const { frontmatter, headings } = Astro.props;
+const { frontmatter } = Astro.props;
 ---
 
 <html lang="en">
@@ -27,7 +26,7 @@ const { frontmatter, headings } = Astro.props;
 				<slot />
 			</article>
 
-			<TOC headings={headings} />
+			<!-- <TOC headings={headings} /> -->
 		</main>
 	</body>
 </html>
