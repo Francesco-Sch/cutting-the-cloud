@@ -3,9 +3,11 @@ from flask_socketio import SocketIO, emit
 import random
 import time
 import threading
+from flask_cors import CORS
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 @app.route('/')
 def index():

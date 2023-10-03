@@ -1,3 +1,13 @@
 ---
 
 ---
+
+<script>
+	let socket = io.connect("localhost:5000");
+
+	socket.on("number_update", function (data) {
+		console.log("Received number:", data.number);
+	});
+</script>
+
+<div></div>
