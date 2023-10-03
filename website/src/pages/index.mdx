@@ -103,18 +103,16 @@ Another interesting thing I noticed was that the TH08 temperature sensor and oth
 
 This calculation only makes sense if you work with the sales prices of Aliexpress, but since my observation the devices have never been out of sale and I have never paid more than the sales price. The high price difference as well as the mismatch in the seller led me to the thesis that the products are sold through dropshipping.
 
-Dropshipping is a business practice where the seller does not keep the products in stock, but instead transmits the customer's orders and shipping details to either the manufacturer, another retailer or a wholesaler who then ships the goods directly to the customer. As a result, the seller does not have to handle the product directly. This practice is very common with products from Aliexpress and explains the price difference between Aliexpress and Amazon, as otherwise the seller would not make a profit.
+Dropshipping is a business practice where the seller does not keep the products in stock, but instead transmits the customer's orders and shipping details to either the manufacturer, another retailer or a wholesaler who then ships the goods directly to the customer. As a result, the seller does not have to handle the product directly. This practice is very common with products from Aliexpress and explains the price difference between Aliexpress and Amazon, as otherwise the seller would not make a profit. [^11] [^12]
 
 Another indicator for the dropshipping thesis is the [Expo website from Tuya](https://expo.tuya.com/). That platform enables sellers to buy Tuya products in high volumne from certified suppliers. This platform allows sellers to buy Tuya products in bulk from certified suppliers. On this website, it is also possible to buy the [TH08 Temperature Sensor](https://expo.tuya.com/product/1077042) that I bought from Aliexpress, even with the ability to customise it.
 
-{/* Little dropshipping critique because people earn money for nothing */}
-
 ## Proprietary Technology - <br/> TuyaMCU and Tuya Cloud
 
-Finally, I would like to draw attention to the use of proprietary technology in these smart home devices. All the devices are equipped with WiFi modules and MCU chips from Tuya. [Tuya](https://www.tuya.com/) is a Chinese smart home company that provides technologies to others to facilitate the development of smart home products. This ranges from cloud services, to development tools such as SDKs, to WiFi chips and MCU chips that make it easy to build compatible circuit boards. [^11] [^12] By offering all these services, it becomes very easy for a third party to develop and distribute smart home products. While this sounds good at first glance, it is a smart move by Tuya to integrate the devices into their ecosystem. This means that all devices are only compatible with the Tuya apps and the Tuya cloud. Therefore, all data collected by the devices is also stored in the Tuya cloud. As the services offered by Tuya are proprietary and not open source in any way, it is not possible to use their service without relying on their cloud.
+Finally, I would like to draw attention to the use of proprietary technology in these smart home devices. All the devices are equipped with WiFi modules and MCU chips from Tuya. [Tuya](https://www.tuya.com/) is a Chinese smart home company that provides technologies to others to facilitate the development of smart home products. This ranges from cloud services, to development tools such as SDKs, to WiFi chips and MCU chips that make it easy to build compatible circuit boards. [^13] [^14] By offering all these services, it becomes very easy for a third party to develop and distribute smart home products. While this sounds good at first glance, it is a smart move by Tuya to integrate the devices into their ecosystem. This means that all devices are only compatible with the Tuya apps and the Tuya cloud. Therefore, all data collected by the devices is also stored in the Tuya cloud. As the services offered by Tuya are proprietary and not open source in any way, it is not possible to use their service without relying on their cloud.
 
 This is problematic on several levels. On the one hand, companies using their services have to constantly react to changes that Tuya makes to their services without having a say in them.
-As a customer, this is even more problematic because sensitive data is stored in a cloud that is not under your personal control. As most customers use these devices in a very private space, most likely their homes, this becomes a major risk. Especially since it has already been proven that Tuya stores a lot of information about the devices and their use, such as network status, IP addresses, locations, and even images or videos if the device is equipped with a camera. [^12] [^13]
+As a customer, this is even more problematic because sensitive data is stored in a cloud that is not under your personal control. As most customers use these devices in a very private space, most likely their homes, this becomes a major risk. Especially since it has already been proven that Tuya stores a lot of information about the devices and their use, such as network status, IP addresses, locations, and even images or videos if the device is equipped with a camera. [^14] [^15]
 
 The [second part of this project](/cutting-the-cloud-away), is about the attempts to free the devices from the Tuya cloud ecosystem, to gain more control over data usage and to use the devices more freely.
 
@@ -130,6 +128,8 @@ If you have questions, ideas or feedback about this project, I would love to her
 [^8]: https://www.nextsmartship.com/blog/why-is-aliexpress-so-cheap/
 [^9]: https://www.weforum.org/agenda/2022/02/special-economic-zones-how-one-city-helped-propel-its-country-s-economic-development/
 [^10]: https://www.china-briefing.com/news/tax-incentives-region-wise-china-comprehensive-summary/
-[^11]: https://www.tuya.com/about
-[^12]: https://www.voanews.com/a/east-asia-pacific_voa-news-china_cybersecurity-experts-worried-chinese-firms-control-smart-devices/6209815.html
-[^13]: https://images.tuyacn.com/app/pAs/tuyaen0930.html
+[^11]: https://www.wired.co.uk/article/dropshipping-instagram-ads
+[^12]:
+[^13]: https://www.tuya.com/about
+[^14]: https://www.voanews.com/a/east-asia-pacific_voa-news-china_cybersecurity-experts-worried-chinese-firms-control-smart-devices/6209815.html
+[^15]: https://images.tuyacn.com/app/pAs/tuyaen0930.html
