@@ -4,91 +4,90 @@ import TH08Frame from "../assets/images/TH08_frame.webp";
 ---
 
 <script>
-	document.addEventListener("astro:page-load", () => {
-		const circleAnimationsCollector = document.querySelectorAll(
-			"[data-animation='circle']"
-		);
-		let circleAnimations = Array.from(circleAnimationsCollector).filter(
-			(circleAnimation) => circleAnimation.clientWidth != 0
-		);
+	const circleAnimationsCollector = document.querySelectorAll(
+		"[data-animation='circle']"
+	);
+	let circleAnimations = Array.from(circleAnimationsCollector).filter(
+		(circleAnimation) => circleAnimation.clientWidth != 0
+	);
 
-		// Add a single timeupdate event listener for all circle animations
-		circleAnimations.forEach((circleAnimation) => {
-			circleAnimation.addEventListener("timeupdate", () => {
-				if (circleAnimation.currentTime >= circleAnimation.duration - 0.5) {
-					circleAnimation.pause();
-					circleAnimation.currentTime = circleAnimation.duration - 0.5;
-				}
-			});
+	// Keep videos from looping
+	circleAnimations.forEach((circleAnimation) => {
+		circleAnimation.addEventListener("timeupdate", () => {
+			if (circleAnimation.currentTime >= circleAnimation.duration - 0.5) {
+				circleAnimation.pause();
+				circleAnimation.currentTime = circleAnimation.duration - 0.5;
+			}
 		});
+	});
 
-		function playAnimation(circleAnimation, wait) {
+	function playAnimation(circleAnimation, wait) {
+		circleAnimation.pause();
+		circleAnimation.currentTime = 0;
+
+		circleAnimation.classList.remove("opacity-0");
+		circleAnimation.classList.add("opacity-100");
+
+		circleAnimation.play();
+
+		setTimeout(() => {
+			circleAnimation.classList.remove("opacity-100");
+			circleAnimation.classList.add("opacity-0");
 			circleAnimation.pause();
 			circleAnimation.currentTime = 0;
+		}, wait);
+	}
 
-			circleAnimation.classList.remove("opacity-0");
-			circleAnimation.classList.add("opacity-100");
+	let playingCircleAnimations = new Set();
 
-			circleAnimation.play();
+	function playRandomAnimation() {
+		let availableCircleAnimations = circleAnimations.filter(
+			(animation) => !playingCircleAnimations.has(animation)
+		);
+
+		if (availableCircleAnimations.length) {
+			let randomCircleAnimation =
+				availableCircleAnimations[
+					Math.floor(Math.random() * availableCircleAnimations.length)
+				];
+
+			playingCircleAnimations.add(randomCircleAnimation);
+			playAnimation(randomCircleAnimation, 10500);
 
 			setTimeout(() => {
-				circleAnimation.classList.remove("opacity-100");
-				circleAnimation.classList.add("opacity-0");
-				circleAnimation.pause();
-				circleAnimation.currentTime = 0;
-			}, wait);
+				playingCircleAnimations.delete(randomCircleAnimation);
+			}, 10500);
 		}
+	}
+	playRandomAnimation();
 
-		let playingCircleAnimations = new Set();
+	let runningAnimation;
+	clearInterval(runningAnimation);
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				runningAnimation = setInterval(playRandomAnimation, 6000);
+			} else {
+				playingCircleAnimations.forEach((circleAnimation) => {
+					circleAnimation.pause();
+					circleAnimation.currentTime = 0;
+				});
 
-		function playRandomAnimation() {
-			let availableCircleAnimations = circleAnimations.filter(
-				(animation) => !playingCircleAnimations.has(animation)
-			);
-
-			if (availableCircleAnimations.length) {
-				let randomCircleAnimation =
-					availableCircleAnimations[
-						Math.floor(Math.random() * availableCircleAnimations.length)
-					];
-
-				playingCircleAnimations.add(randomCircleAnimation);
-				playAnimation(randomCircleAnimation, 10500);
-
-				setTimeout(() => {
-					playingCircleAnimations.delete(randomCircleAnimation);
-				}, 10500);
+				clearInterval(runningAnimation);
 			}
-		}
-		playRandomAnimation();
-
-		let runningAnimation;
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					runningAnimation = setInterval(playRandomAnimation, 6000);
-				} else {
-					playingCircleAnimations.forEach((circleAnimation) => {
-						circleAnimation.pause();
-						circleAnimation.currentTime = 0;
-					});
-
-					clearInterval(runningAnimation);
-				}
-			});
 		});
-		observer.observe(document.querySelector("#hero"));
+	});
+	observer.observe(document.querySelector("#hero"));
 
-		// Debounce the resize event
-		let resizeTimeout;
-		window.addEventListener("resize", () => {
-			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(() => {
-				circleAnimations = Array.from(circleAnimationsCollector).filter(
-					(circleAnimation) => circleAnimation.clientWidth != 0
-				);
-			}, 500);
-		});
+	// Debounce the resize event
+	let resizeTimeout;
+	window.addEventListener("resize", () => {
+		clearTimeout(resizeTimeout);
+		resizeTimeout = setTimeout(() => {
+			circleAnimations = Array.from(circleAnimationsCollector).filter(
+				(circleAnimation) => circleAnimation.clientWidth != 0
+			);
+		}, 500);
 	});
 </script>
 
