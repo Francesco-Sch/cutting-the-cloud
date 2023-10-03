@@ -41,26 +41,25 @@
 
 <script>
 	// Hide links that are not on the current page
-	document.addEventListener("astro:page-load", () => {
-		const links = document.querySelectorAll("nav a");
-		const dots = document.querySelectorAll("nav .animate-pulse");
-		const current = window.location.pathname;
 
-		links.forEach((link) => {
-			if (link.getAttribute("href") === current) {
-				link.classList.remove("opacity-0");
-			} else {
-				link.classList.add("opacity-0");
-			}
-		});
+	const links = document.querySelectorAll("nav a");
+	const dots = document.querySelectorAll("nav .animate-pulse");
+	const current = window.location.pathname;
 
-		dots.forEach((dot) => {
-			if (dot.nextSibling.getAttribute("href") === current) {
-				dot.classList.remove("invisible");
-			} else {
-				dot.classList.add("invisible");
-			}
-		});
+	links.forEach((link) => {
+		if (link.getAttribute("href") === current) {
+			link.classList.remove("opacity-0");
+		} else {
+			link.classList.add("opacity-0");
+		}
+	});
+
+	dots.forEach((dot) => {
+		if (dot.nextSibling.getAttribute("href") === current) {
+			dot.classList.remove("invisible");
+		} else {
+			dot.classList.add("invisible");
+		}
 	});
 
 	// Move header out of viewport when scrolling down
