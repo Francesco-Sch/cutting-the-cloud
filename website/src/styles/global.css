@@ -15,5 +15,5 @@ html {
 }
 
 .footnotes p {
-	@apply my-3;
+	@apply my-3 break-words;
 }
