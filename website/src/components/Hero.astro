@@ -34,6 +34,8 @@ import TH08Frame from "../assets/images/TH08_frame.webp";
 			setTimeout(() => {
 				circleAnimation.classList.remove("opacity-100");
 				circleAnimation.classList.add("opacity-0");
+				circleAnimation.pause();
+				circleAnimation.currentTime = 0;
 			}, wait);
 		}
 
@@ -66,6 +68,11 @@ import TH08Frame from "../assets/images/TH08_frame.webp";
 				if (entry.isIntersecting) {
 					runningAnimation = setInterval(playRandomAnimation, 6000);
 				} else {
+					playingCircleAnimations.forEach((circleAnimation) => {
+						circleAnimation.pause();
+						circleAnimation.currentTime = 0;
+					});
+
 					clearInterval(runningAnimation);
 				}
 			});
