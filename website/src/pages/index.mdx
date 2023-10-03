@@ -1,17 +1,17 @@
 ---
 layout: ../layouts/BaseLayout.astro
-title: The ☁️ around Temperature Sensors
+title: The ☁️ around temperature sensors
 ---
 
 import { Image } from "astro:assets";
 import component_overview_pcb from "../assets/images/component-overview_TH08-CBU-AHT20-V2.1.webp";
 import shenzhen_skyline from "../assets/images/shenzhen-skyline.webp";
 
-# The ☁️ around Temperature Sensors
+# The ☁️ around temperature sensors
 
-In a class I attended at Hochschule für Künste Bremen, titled Aliexpress Archaeology, our task was to delve into the depths of Aliexpress and uncover objects that gained our interest. Aliexpress is the customer shopping platform of the Alibaba Group Holding Limited. AliExpress stands as the customer shopping arm of the Alibaba Group Holding Limited, distinctive in its direct connection to production facilities. This direct link promises the elimination of various middlemen in the delivery chain, offering products at low prices.
+In a course I took at the [Hochschule für Künste Bremen](https://www.hfk-bremen.de) called Aliexpress Archaeology, our task was to delve into the depths of Aliexpress and find objects that gained our interest. Aliexpress is the consumer shopping platform of the Alibaba Group Holding Limited. It provides a direct link to production facilities, cutting out various middlemen in the supply chain and offering products at low prices.
 
-During my exploration of the website, my attention was quickly drawn to very affordable smart home products. I found myself particularly intrigued by a battery-powered temperature sensor, advertised as _[Tuya WIFI Temperature Humidity Sensor Indoor Hygrometer Thermometer Detector Smart Life Remote Control Support Alexa Google Home](https://de.aliexpress.com/item/1005004755749389.html)_.[^1]
+As I explored the site, my attention was quickly drawn to very affordable smart home products. I was particularly intrigued by a battery-powered temperature sensor advertised as _[Tuya WIFI Temperature Humidity Sensor Indoor Hygrometer Thermometer Detector Smart Life Remote Control Support Alexa Google Home](https://de.aliexpress.com/item/1005004755749389.html)_.[^1]
 
 <Image
 	src="https://ae01.alicdn.com/kf/A3e71cf860e764a8f82a29515653d37898/Tuya-WIFI-Temperature-Humidity-Sensor-Indoor-Hygrometer-Thermometer-Detector-Smart-Life-Remote-Control-Support-Alexa-Google.png_.webp"
@@ -21,29 +21,29 @@ During my exploration of the website, my attention was quickly drawn to very aff
 	class="mx-auto"
 />
 
-The price for the TH08 temperature sensor was 7,62€, which seems pretty low for for such a technical device. This led me to the following questions:
+The price of the TH08 temperature sensor was €7.62, which seems rather low for such a technical device. This led me to the following questions:
 
-**How can a smart home device, which is capable of quite a lot of technical features, be offered so cheap?**
+**How can a smart home device, which has quite a few technical features, be offered at such a low price?**.
 
-Additionally,
+In addition,
 
-**What is the purpose of a cheap device likes this? Who is gaining from it?**
+**What is the purpose of such a cheap device? Who benefits from it?**.
 
-Beyond thie questions, the device was also appealing to me. I wanted to see if I could somehow acquire or hack the technical inner workings of the device. My original idea was to gain control over the screen and use it to project a visual narrative. Despite my attempts, I was unsuccessful which you can read more about in the [second part of the documentation](/cutting-the-cloud-away) about hacking that device.
+Beyond these questions, I was also intrigued by the device itself. I wanted to see if I could somehow acquire or hack the technical inner workings of it. My original idea was to gain control of the screen and use it to project a visual narrative. Despite my attempts, I was unsuccessful, which you can read more about in the [second part of the documentation](/cutting-the-cloud-away).
 
-The following chapters are broad areas of research that I stumbled upon while attempting to hack the temperature sensors. The research is divided into broad chapters that together try to provide answers to the questions above.
+The following chapters are broad areas of research that I stumbled upon while trying to hack the temperature sensors. The research is divided chapters that together try to provide answers to the questions above.
 
-## Value of Labour
+## Value of labour
 
-In our current capitalist society we express value of labour most of the times through money. To understand better how much the labour in the TH08 temperature sensor is valued, I tried to backwards engineer the price of the device. I started with looking at the PCB and calculate the prices for the individual component.
+In our current capitalist society, the value of labour is most often expressed in terms of money. To better understand the value of the labour in the TH08 temperature sensor, I tried to backwards engineer the price of the device. I started by looking at the PCB and calculating the price of each component.
 
 <Image
 	src={component_overview_pcb}
 	alt="Top view of the PCB with annotated components."
 />
 
-I looked up the prices for the components on the Assembly Parts Lib of JLCPCB. [^2] This is a commonly used website to produce your own PCB designs. As it is also based in Shenzhen this should give us a good reference point.
-From two of the chips the label was earsed, therefore the price could not be indentified. Nevertheless, they are probably a TuyaMCU chip as well as an RTC chip. Some other components have labels but could neither be identified. [^3] [^4]
+I looked up the component prices on the Assembly Parts Lib of JLCPCB. [^2] JLCPCB is a commonly used website for making your own PCB designs. As many sellers on Aliexpress and JLCPCB are based in Shenzhen, I thought this would be a good reference point.
+Two of the chips had the label erased, so the price could not be determined. However, they are probably a TuyaMCU chip and an RTC chip. Some other components have labels, but none could be identified. [^3] [^4]
 
 ### Prices from JLCPCB Assembly Parts Lib
 
@@ -57,43 +57,43 @@ From two of the chips the label was earsed, therefore the price could not be ind
 | LED ([similar](https://jlcpcb.com/partdetail/Baizou-S2835WW8C1_02_3VKMT/C5357369))  | 2      | $0.0101 | 0,01€   | 0,02€     |
 | TuyaMCU (unknown)                                                                   | 1      | ?       | ?       | ?         |
 | RTC (unknown)                                                                       | 1      | ?       | ?       | ?         |
-| FDAR voltage regulator (2,8 volts) (unkown)                                         | 1      | ?       | ?       | ?         |
-| FEAQ voltage regulator (3,3 volts) (unkown)                                         | 1      | ?       | ?       | ?         |
+| FDAR voltage regulator (2,8 volts) (unknown)                                        | 1      | ?       | ?       | ?         |
+| FEAQ voltage regulator (3,3 volts) (unknown)                                        | 1      | ?       | ?       | ?         |
 | 6BRO resistor (unknown)                                                             | 1      | ?       | ?       | ?         |
 | Button (unknown)                                                                    | 1      | ?       | ?       | ?         |
 | Battery Contacts (unknown)                                                          | 2      | ?       | ?       | ?         |
 | **Price in total**                                                                  |        |         |         | **4,23€** |
 
-Keep in mind that this is only the price for some of the components. The plastic case, the LCD screen, all the small resistors and capacitors as well as the material for the PCB itself are not included. Even though this is a very rough estimate, it still creates a good feeling for the material costs of the device.
-Substracted from the original price of the device, it leaves us with:
+Note that this is the price of just some of the components. It does not include the plastic casing, the LCD screen, all the small resistors and capacitors, or the material for the PCB itself. Although this is a very rough estimate, it still gives a good idea of the cost of the materials.
+Subtracted from the original price of the unit, we are left with:
 
 $$7,62€ - 4,23€ = 3,39€$$
 
-From this remaining amount there still needs to be cost covered such as
+From this remaining amount, there are still costs to cover, such as
 
-- Other manufacturing costs except the Material BOM
+- Manufacturing costs other than the bill of materials
 - Financing costs
 - Fulfillment costs
-- Fixed cost
+- Fixed costs
 - Internal costs
 - Packaging costs
 - etc.
 
-This is only the so called COGS (Cost of Goods). Markup is not even included. [^5] [^6] Eventhough this is a sketchy calculation it gives a good starting point to estimate how much the labour was valued that went into the production of this device.
+These are just the so-called COGS (cost of goods). It does not even include the mark-up. [^5] [^6] Although this is a rough calculation, it is a good starting point for estimating the value of the work that went into making this device.
 
 ## Aliexpress and Shenzhen
 
-In an attempt to understand how the device can be offered at that price point two factors need to be considered. The first one is the platform Aliexpress itself and the second one is the location of the production facilities in Shenzhen.
+To understand why the device is available at such a price, there are two key aspects to consider. The first is the Aliexpress platform itself, and the second is the production facilities in Shenzhen.
 
-As already mentioned above above, Aliexpress is the customer shopping platform of Alibaba, which is capable of offering products at low price points. Besides the point, tath manufacturers are offering their goods through Aliexpress, directly there are other reasons for the low prices. Shipping is subsidized by the chinese goverment if China Post, the national post service, is used. This leads to sellers offering free shipping to the customers on the platform. Additionally the costs of raw materials and supplies are cheap for manufactures as a Chinese government's policy ensures that manufacturers can purchase and source their materials at competitve prices. In the end also the low cost of labour needs the be considered as a way of keeping the prices low. [^7] [^8]
+As mentioned above, Aliexpress is Alibaba's consumer shopping portal, known for offering products at low prices. In addition to the fact that manufacturers sell directly on Aliexpress without intermediaries, several other factors contribute to the lower prices. Shipping is subsidised by the Chinese government when using China Post, the national postal service. This encourages sellers to offer free shipping to customers on the platform. In addition, the cost of raw materials and consumables is low for manufacturers, as Chinese government policy ensures that manufacturers can purchase and source their materials at competitive prices. Finally, low labour costs must also be taken into account to keep prices low. [^7] [^8]
 
 <Image src={shenzhen_skyline} alt="Shenzhen Skyline" />
 
-Another important factor is the location of the production facilities in Shenzhen. Shenzhen is a special economic zone (SEZ) designated by the Chinese government, designed to promote economic growth and innovation. As an SEZ, Shenzhen enjoys various tax incentives and relaxed regulatory policies. This has attracted a multitude of manufacturers and technology companies to set up operations in the city, leading to a highly competitive market. The concentration of businesses in Shenzhen fosters intense competition among suppliers, which drives down production costs. Aliexpress sellers in Shenzhen can tap into this ecosystem of cost-efficient manufacturing and leverage the city's logistics infrastructure for efficient global shipping, ultimately contributing to the platform's ability to provide inexpensive products to consumers around the world. [^9] [^10]
+Another important factor is the location of the production facilities in Shenzhen. Shenzhen is a Special Economic Zone (SEZ) designated by the Chinese government to promote economic growth and innovation. As an SEZ, Shenzhen enjoys various tax incentives and relaxed regulatory policies. This has attracted a large number of manufacturers and technology companies to set up operations in the city, resulting in a highly competitive market. The concentration of companies in Shenzhen fosters intense competition among suppliers, which drives down production costs. Aliexpress sellers in Shenzhen can tap into this ecosystem of low-cost manufacturing and use the city's logistics infrastructure for efficient global shipping, ultimately contributing to the platform's ability to deliver low-cost products to consumers around the world. [^9] [^10]
 
 ## Dropshipping
 
-Another interesting point that came to my attention was that the TH08 temperature sensor and the other ones I bought (you can find a full list in the [second part of the documentation](/cutting-the-cloud-away)) were available outside of Aliexpress. I could find several devices I bought on Aliexpress also on Amazon. The images, names and description differed only slightly but the real difference was in the price. Depending on the device the price on Amazon was up to 2.8x higher than the one on Aliexpress.
+Another interesting thing I noticed was that the TH08 temperature sensor and others I bought (you can find a full list in the [second part of the documentation](/cutting-the-cloud-away)) were available outside of Aliexpress. I was able to find several units I bought on Aliexpress on Amazon as well. The pictures, names and descriptions were slightly different, but the real difference was the price. Depending on the device, the price on Amazon was up to 2.8 times higher than on Aliexpress.
 
 | Aliexpress                                                     | Amazon                                        |
 | -------------------------------------------------------------- | --------------------------------------------- |
@@ -101,22 +101,24 @@ Another interesting point that came to my attention was that the TH08 temperatur
 | [TH01](https://de.aliexpress.com/item/1005005097738278.html)   | [TH01](https://www.amazon.de/dp/B0B8HSJ4WG)   |
 | [KBZ-FR](https://de.aliexpress.com/item/1005004492234396.html) | [KBZ-FR](https://www.amazon.de/dp/B0B3D4Z98S) |
 
-This calculation makes only sense if you work with the sales price of Aliexpress but since my observation the devices have never been out of sale and I never payed more then the sales price. The high price difference as well as the mismatch in the seller led me to the thesis that the products are sold through Dropshipping.
+This calculation only makes sense if you work with the sales prices of Aliexpress, but since my observation the devices have never been out of sale and I have never paid more than the sales price. The high price difference as well as the mismatch in the seller led me to the thesis that the products are sold through dropshipping.
 
-Dropshipping is a business practise where the seller does not keep the products in stock but instead transfers the customer orders and shipment details to either the manufacturer, another retailer, or a wholesaler, who then ships the goods directly to the customer. Therefore a seller does not have to handle the product directly. This practise is very common on Aliexpress and explains the price difference between Aliexpress and Amazon, because otherwise the seller would not made any profit.
+Dropshipping is a business practice where the seller does not keep the products in stock, but instead transmits the customer's orders and shipping details to either the manufacturer, another retailer or a wholesaler who then ships the goods directly to the customer. As a result, the seller does not have to handle the product directly. This practice is very common with products from Aliexpress and explains the price difference between Aliexpress and Amazon, as otherwise the seller would not make a profit.
 
-Another indicator for the dropshipping thesis is the [Expo website from Tuya](https://expo.tuya.com/). That platform enables sellers to buy Tuya products in high volumne from certified suppliers. On this website it is also possible to buy the [TH08 temperature sensor](https://expo.tuya.com/product/1077042) I bought from Aliexpress even with the ability to customize it.
+Another indicator for the dropshipping thesis is the [Expo website from Tuya](https://expo.tuya.com/). That platform enables sellers to buy Tuya products in high volumne from certified suppliers. This platform allows sellers to buy Tuya products in bulk from certified suppliers. On this website, it is also possible to buy the [TH08 Temperature Sensor](https://expo.tuya.com/product/1077042) that I bought from Aliexpress, even with the ability to customise it.
 
 {/* Little dropshipping critique because people earn money for nothing */}
 
 ## Proprietary Technology - <br/> TuyaMCU and Tuya Cloud
 
-Lastly I want to raise attention to the usage of propiertary technology in these smart home devices. All the devices are equipped with WiFi modules and MCU chips from Tuya. [Tuya](https://www.tuya.com/) is a Chinese smart home company that provides technologies to others for easier smart home product development. This goes from Cloud Services, over development tools such as SDKs to WiFi chips and MCU chips, which help to easily build compatible PCBs.[^11] [^12] Through offering all these services it becomes very easy as a third party company to develop and distribute smart home products. Even though this sounds nice on the first look it is a smart move from Tuya to look the devices into their ecosystem. This means that all the devices are only compatible with the Tuya apps and the Tuya cloud. Therefore all the data that is collected by the devices is also stored on the Tuya cloud. As the offered services by Tuya are proprietary and not open-source in any way, it is not possible to use their service without relying on their cloud.
+Finally, I would like to draw attention to the use of proprietary technology in these smart home devices. All the devices are equipped with WiFi modules and MCU chips from Tuya. [Tuya](https://www.tuya.com/) is a Chinese smart home company that provides technologies to others to facilitate the development of smart home products. This ranges from cloud services, to development tools such as SDKs, to WiFi chips and MCU chips that make it easy to build compatible circuit boards. [^11] [^12] By offering all these services, it becomes very easy for a third party to develop and distribute smart home products. While this sounds good at first glance, it is a smart move by Tuya to integrate the devices into their ecosystem. This means that all devices are only compatible with the Tuya apps and the Tuya cloud. Therefore, all data collected by the devices is also stored in the Tuya cloud. As the services offered by Tuya are proprietary and not open source in any way, it is not possible to use their service without relying on their cloud.
 
-This is problematic on multiple levels. On one hand companies using their services, always need to respond to changes made by Tuya to their services without having a word in it.
-As a customer this is even more problematic, because sensitive data is stored on a cloud that is not under personal control. As most customers use these devices in a very private space, most likely their homes, this becomes a big risk. Especially because it is already proven that Tuya stores a lot of information about the devices and their usage such as network status, IP addresses, locations and even images or videos, if the device used is equipped with a camera. [^12] [^13]
+This is problematic on several levels. On the one hand, companies using their services have to constantly react to changes that Tuya makes to their services without having a say in them.
+As a customer, this is even more problematic because sensitive data is stored in a cloud that is not under your personal control. As most customers use these devices in a very private space, most likely their homes, this becomes a major risk. Especially since it has already been proven that Tuya stores a lot of information about the devices and their use, such as network status, IP addresses, locations, and even images or videos if the device is equipped with a camera. [^12] [^13]
 
-The [second part of this project](/cutting-the-cloud-away), is all about the attempts taken to free the devices from the Tuya cloud ecosystem, to gain more control over the data usage and using the devices more freely.
+The [second part of this project](/cutting-the-cloud-away), is about the attempts to free the devices from the Tuya cloud ecosystem, to gain more control over data usage and to use the devices more freely.
+
+If you have questions, ideas or feedback about this project, I would love to here from you! Feel free to [reach out](mailto:hello@francesco-scheffczyk.de).
 
 [^1]: In the following the temperature sensors will be referred to with their model number.
 [^2]: [https://jlcpcb.com/about](https://jlcpcb.com/about)
