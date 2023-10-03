@@ -3,6 +3,11 @@ layout: ../layouts/BaseLayout.astro
 title: Cutting the ☁️ away
 ---
 
+import { Image } from "astro:assets";
+import usb_to_ttl from "../assets/images/usb-to-ttl.webp";
+import reading_control_pins from "../assets/images/reading-control-pins.webp";
+import controlling_pins from "../assets/images/controlling-pins.webp";
+
 # Cutting the ☁️ away
 
 The initial aim of this project was to create a visual narrative on the displays of smart home temperature sensors. Think of it like the visuals at the top of the website. Each dot that materialises on a screen symbolises a unit sold, representing the effort of an individual behind that product. Every ten minutes represents a month's sales.
@@ -52,6 +57,11 @@ As none of the options to flash the devices wirelessly worked, I had no other op
 
 To upload the ESPHome firmware directly, you can solder wires to the appropriate pins on the WiFi module and then connect them to a USB to TTL UART converter. This allows the chip to be read and written to via USB.
 
+<Image
+	src={usb_to_ttl}
+	alt="A PCB connected to a MacBook via a USB to TTL UART converter"
+/>
+
 The ESPHome Kickstart method failed, so a custom ESPHome firmware had to be flashed directly. This firmware had to be created beforehand. f Kickstart had been successful, [ltchiptool](https://docs.libretiny.eu/docs/flashing/tools/ltchiptool/) could have been used to read the datapoints from a device already providing an open WiFi signal. A custom ESPHome firmware could then have been built using this data. However, as this option was not available, an alternative method of creating firmware was used.
 
 To proceed a dumb of the original firmware had to be obtained. Utilizing ltchiptool's reading function I created a dump of the original firmware of the TH08 temperature sensor. With the help of [kuba2k2](https://github.com/kuba2k2) and [Cossid](https://github.com/Cossid) a [device profile](https://github.com/tuya-cloudcutter/tuya-cloudcutter.github.io/blob/master/devices/emylo-csac905-temperature-and-humidity-sensor-display.json) was created based on that dum. This profile was also added to the Tuya Cloudcutter project. Once the device profile was added, a firmware could be created using [UPK2ESPHome](https://upk.libretiny.eu/). This website creates a YAML file for ESPHome based on the device profile.
@@ -68,11 +78,20 @@ So with that workaround, I was able to keep the device on the network, even if o
 
 However, at this point I was still not able to control the unit as I had imagined. This is due to another chip inside the device, the TuyaMCU chip. This chip is responsible for translating the software signals from the WiFi chip and passing them on to the hardware components and vice versa. Unfortunately, this chip cannot be addressed via the ESPHome Flash, which is why I did not get anywhere further at this point.
 
-I tried out some other ways of hacking the device physically, for example I was able to read different data over the controlling pins of the PCB with an Arduino. But none of the approaches led to really gaining control over the device let alone the screen.
+<Image
+	src={reading_control_pins}
+	alt="Reading data from control pins of a PCB with an Arduino"
+/>
 
-[Image of the Arduino reading the data]("")
+I tried out some other ways of hacking the device physically, for example I was able to read different data over the control pins of the PCB with an Arduino. But none of the approaches led to really gaining control over the device let alone the screen.
 
-[Image of the control pins]("")
+<Image
+	src={controlling_pins}
+	alt="Wires connected to controlling pins on a PCB"
+	width="768"
+	height="768"
+	class="mx-auto"
+/>
 
 ## tinytuya
 
