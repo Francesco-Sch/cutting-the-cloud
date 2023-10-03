@@ -1,13 +1,40 @@
 ---
-
+const { temperature_limit = 25 } = Astro.props;
+let temperature = 0;
 ---
 
 <script>
 	let socket = io.connect("localhost:5000");
+	let temperature = 0;
 
 	socket.on("number_update", function (data) {
 		console.log("Received number:", data.number);
 	});
 </script>
 
-<div></div>
+<div
+	class="w-full h-3/5 bg-neutral-100 fixed bottom-0 left-0 p-8 grid grid-cols-8 z-50"
+>
+	<p class="font-serif text-6xl col-span-8 col-start-1 row-end-2 row-start-1">
+		Increase the temperature to
+	</p>
+
+	<div class="col-span-8 col-start-1 row-start-2 flex h-full -mb-32">
+		<p class="font-display h-full" style="font-size: calc(var(--vh, 1vh) * 35)">
+			{temperature_limit}C
+		</p>
+		<p class="ml-16 mb-4 self-end text-xl font-mono">
+			Currently at: <br />
+			{temperature} °C
+		</p>
+	</div>
+
+	<div class="col-span-4 col-end-12 row-start-1 row-span-3">
+		<p class="font-serif">
+			If there are no TH08 temperature sensors in your close proximity you are
+			not able to change the temperature. To disable this feature press:
+		</p>
+
+		<p class="mt-6 font-mono">CMD + T</p>
+	</div>
+</div>
