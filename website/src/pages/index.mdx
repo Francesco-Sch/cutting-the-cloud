@@ -11,7 +11,7 @@ import shenzhen_skyline from "../assets/images/shenzhen-skyline.webp";
 
 In a class I attended at Hochschule für Künste Bremen, titled Aliexpress Archaeology, our task was to delve into the depths of Aliexpress and uncover objects that gained our interest. Aliexpress is the customer shopping platform of the Alibaba Group Holding Limited. AliExpress stands as the customer shopping arm of the Alibaba Group Holding Limited, distinctive in its direct connection to production facilities. This direct link promises the elimination of various middlemen in the delivery chain, offering products at low prices.
 
-During my exploration of the website, my attention was quickly drawn to very affordable smart home products. I found myself particularly intrigued by a battery-powered temperature sensor, advertised as _Tuya WIFI Temperature Humidity Sensor Indoor Hygrometer Thermometer Detector Smart Life Remote Control Support Alexa Google Home_.[^1]
+During my exploration of the website, my attention was quickly drawn to very affordable smart home products. I found myself particularly intrigued by a battery-powered temperature sensor, advertised as _[Tuya WIFI Temperature Humidity Sensor Indoor Hygrometer Thermometer Detector Smart Life Remote Control Support Alexa Google Home](https://de.aliexpress.com/item/1005004755749389.html)_.[^1]
 
 <Image
 	src="https://ae01.alicdn.com/kf/A3e71cf860e764a8f82a29515653d37898/Tuya-WIFI-Temperature-Humidity-Sensor-Indoor-Hygrometer-Thermometer-Detector-Smart-Life-Remote-Control-Support-Alexa-Google.png_.webp"
@@ -29,7 +29,7 @@ Additionally,
 
 **What is the purpose of a cheap device likes this? Who is gaining from it?**
 
-Beyond thie questions, the device was also appealing to me. I wanted to see if I could somehow acquire or hack the technical inner workings of the device. My original idea was to gain control over the screen and use it to project a visual narrative. Despite my attempts, I was unsuccessful which you can read more about in the [second part of the documentation](/hacking-temperature-sensors) about hacking that device.
+Beyond thie questions, the device was also appealing to me. I wanted to see if I could somehow acquire or hack the technical inner workings of the device. My original idea was to gain control over the screen and use it to project a visual narrative. Despite my attempts, I was unsuccessful which you can read more about in the [second part of the documentation](/cutting-the-cloud-away) about hacking that device.
 
 The following chapters are broad areas of research that I stumbled upon while attempting to hack the temperature sensors. The research is divided into broad chapters that together try to provide answers to the questions above.
 
@@ -93,7 +93,7 @@ Another important factor is the location of the production facilities in Shenzhe
 
 ## Dropshipping
 
-Another interesting point that came to my attention was that the TH08 temperature sensor and the other ones I bought (you can find a full list in the [second part of the documentation](/hacking-temperature-sensors/)) were available outside of Aliexpress. I could find several devices I bought on Aliexpress also on Amazon. The images, names and description differed only slightly but the real difference was in the price. Depending on the device the price on Amazon was up to 2.8x higher than the one on Aliexpress.
+Another interesting point that came to my attention was that the TH08 temperature sensor and the other ones I bought (you can find a full list in the [second part of the documentation](/cutting-the-cloud-away)) were available outside of Aliexpress. I could find several devices I bought on Aliexpress also on Amazon. The images, names and description differed only slightly but the real difference was in the price. Depending on the device the price on Amazon was up to 2.8x higher than the one on Aliexpress.
 
 | Aliexpress                                                     | Amazon                                        |
 | -------------------------------------------------------------- | --------------------------------------------- |
@@ -111,14 +111,14 @@ Another indicator for the dropshipping thesis is the [Expo website from Tuya](ht
 
 ## Proprietary Technology - <br/> TuyaMCU and Tuya Cloud
 
-Lastly I want to raise attention to the usage of propiertary technology in these smart home devices. All the devices are equipped with WiFi modules and MCU chips from Tuya. Tuya is a chinese smart home company that provides technologies to others for easier smart home product development. This goes from Cloud Services, over development tools such as SDKs to Wifi chips and MCU chips, which help to easily build compatible PCBs.[^11] [^12] Through offering all these services it becomes very easy as a third party company to develop and dsitribute smart home products. Even though this sounds nice on the first look it is a smart move from Tuya to look the devices into their ecosystem. This means that all the devices are only compatible with the Tuya apps and the Tuya cloud. Therefore all the data that is collected by the devices is also stored on the Tuya cloud. As the offered services by Tuya are proprietary and not open-source in any way, it is not possible to use their service without relying on their cloud.
+Lastly I want to raise attention to the usage of propiertary technology in these smart home devices. All the devices are equipped with WiFi modules and MCU chips from Tuya. [Tuya](https://www.tuya.com/) is a Chinese smart home company that provides technologies to others for easier smart home product development. This goes from Cloud Services, over development tools such as SDKs to Wifi chips and MCU chips, which help to easily build compatible PCBs.[^11] [^12] Through offering all these services it becomes very easy as a third party company to develop and distribute smart home products. Even though this sounds nice on the first look it is a smart move from Tuya to look the devices into their ecosystem. This means that all the devices are only compatible with the Tuya apps and the Tuya cloud. Therefore all the data that is collected by the devices is also stored on the Tuya cloud. As the offered services by Tuya are proprietary and not open-source in any way, it is not possible to use their service without relying on their cloud.
 
 This is problematic on multiple levels. On one hand companies using their services, always need to respond to changes made by Tuya to their services without having a word in it.
-As a customer this is even more problematic, because sensitive data is stored on a cloud that is not under personal control. As most customers use these devices in a very private space, most likely their homes, this becomes a big risk. Especially because it is already proven that Tuya stores a lot of information about the devices and their usage such as network status, IP adresses, locations and even images or videos, if the device used is equipped with a camera. [^12] [^13]
+As a customer this is even more problematic, because sensitive data is stored on a cloud that is not under personal control. As most customers use these devices in a very private space, most likely their homes, this becomes a big risk. Especially because it is already proven that Tuya stores a lot of information about the devices and their usage such as network status, IP addresses, locations and even images or videos, if the device used is equipped with a camera. [^12] [^13]
 
-The [second part of this project](/hacking-temperature-sensors/), is all about the attempts taken to free the devices from the Tuya cloud ecosystem, to gain more control over the data usage and using the devices more freely.
+The [second part of this project](/cutting-the-cloud-away), is all about the attempts taken to free the devices from the Tuya cloud ecosystem, to gain more control over the data usage and using the devices more freely.
 
-[^1]: In the following the temperature sensors will be reffered to with their model number.
+[^1]: In the following the temperature sensors will be referred to with their model number.
 [^2]: [https://jlcpcb.com/about](https://jlcpcb.com/about)
 [^3]: [This forum post](https://www.elektroda.com/rtvforum/topic4000657.html) was very helpful to identify the components.
 [^4]: Prices are from 2023-09-27.

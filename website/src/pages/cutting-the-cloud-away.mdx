@@ -5,9 +5,9 @@ title: Cutting the ☁️ away
 
 # Cutting the ☁️ away
 
-In the beginning the goal of this project, was to tell a visual narrative on the screens of the temperature sensors. Ideally something like you can see on top of the website. Every dot that appears on one of the screen represents one unit that was sold, one person that put energy into this product. Ever ten minutes represents one month of selling.
+In the beginning the goal of this project, was to tell a visual narrative on the screens of a smart home temperature sensors. Ideally something like you can see on top of the website. Every dot that appears on one of the screen represents one unit that was sold, one person that put energy into this product. Ever ten minutes represents one month of selling.
 
-With this idea in my mind I started on a journey, trying to hack the device for accessing the screen. Everything began with learning about Tuya Convert.
+With this idea in my mind I started on a journey, trying to hack a temperature sensor for accessing the screen. Everything began with learning about Tuya Convert.
 
 ## Learning about Tuya Convert
 
@@ -30,22 +30,66 @@ Luckily there was a new open source project on the horizon.
 
 ## Tuya Cloudcutter
 
-Tuya Cloudcutter is somewhat the successor of Tuya Convert for BEKEN based devices. Eventhough it is still pretty young it already supports a lot of devices. It has a similar operating mode as Tuya convert, as it enables someone to flash new firmware on smart home devices over the air.
+[Tuya Cloudcutter](https://github.com/tuya-cloudcutter/tuya-cloudcutter) is the successor of Tuya Convert for BEKEN based devices. The exploit was found by [Khaled Nassar](https://twitter.com/kmhnassar) and [Tom Clement](https://twitter.com/Tom_Clement) and [Jilles Groenendijk](https://twitter.com/jilles_com). It has a similar operating mode as Tuya convert, as it enables someone to flash new firmware on smart home devices over the air. With Tuya Cloudcutter it is possible to flas either ESPHome or OpenBeken firmware, which are similar in their usage to Tasmota. AS ESPHome has also documentation for controlling screen-based devices I decided to go with that.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Following again the instructions in the [INSTRUCTIONS.md](https://github.com/tuya-cloudcutter/tuya-cloudcutter/blob/main/INSTRUCTIONS.md) and [HOST_SPECIFIC_INSTRUCTIONS.md](https://github.com/tuya-cloudcutter/tuya-cloudcutter/blob/main/HOST_SPECIFIC_INSTRUCTIONS.md), I tried the exploit and this time it worked! The exploit run through on two devices, the [TH08 temperature sensor](https://de.aliexpress.com/item/1005004755749389.html) and the [WL-WIFI-HT temperature sensor](https://www.amazon.de/dp/B0B8HSJ4WG), using the [bk7231n-lowpower-common-ty-1.0.10](https://github.com/tuya-cloudcutter/tuya-cloudcutter.github.io/blob/master/profiles/bk7231n-lowpower-common-ty-1.0.10-sdk-2.3.1-40.00.json) device profile. During this exploit a firmware called ESPHome Kickstart was flashed on the devices. This firmware is a minimal firmware that enables the user to flash a custom ESPHome firmware on the device. The ESPHome Kickstart firmware is only flashed once and then replaced by the custom ESPHome firmware.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The normal behavior for devices flashed with ESPHome Kickstart would have been that they open up a wifi access point that serves a website. One could use that website to set networks settings and upload the custom ESPHome firmware. That custom ESPHome firmware would then add the device to a local network and enable the user to control the device via their ESPHome dashboard, that i.e. runs inside HomeAssistant.
+
+With the two temperature sensors I never reached that point. Eventhough the exploit run, the devices never opened up a wifi access point. Without being able to upload custom firmware, I was not able to add them to my local network and control them via ESPHome.
+
+Another set back and this one was even trickier. Finding out what the issues was here, was not as easy, because a lot of factors were in play. It could have been the wrong device profile, something with the device itself or an issue with ESPHome Kickstart. In the end, I learned that the issues lies propably in the fact that the devices are battery powered. To safe energy from the battery, the devices only set up a wifi connection every now and then. For example the TH08 temperature sensor connects itself every hour to the cloud to update its values. This is propably controlled by the internal RTC, eventhough I can not prove it. [^1]
+
+As none of the options worked to flash the devices wirelessly, I had no other option than opening them up and solder some wires onto them.
 
 ## Soldering
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+To flash the ESPHome firmware directly, wires can be soldered to the correct pins on the wifi chip and then connected to a USB to TTL UART adapter. This allows for reading and writing to the chip via USB.
+
+The ESPHome Kickstart method failed, so a custom ESPHome firmware had to be flashed directly. Beforehand, it was necessary to create this firmware. If Kickstart had been successful, [ltchiptool](https://docs.libretiny.eu/docs/flashing/tools/ltchiptool/) could have been used to read the datapoints from a device that already provided an open wifi access point. Then, a custom ESPHome firmware could have been compiled using those points. However, with that option unavailable, an alternative firmware creation method was adopted.
+
+For that a dumb of the original firmware had to be created. I used the reading capability of ltchiptool to create a dump of the original firmware of the TH08 temperature sensor. With the help of [kuba2k2](https://github.com/kuba2k2) and [Cossid](https://github.com/Cossid) I was able to create a [device profile](https://github.com/tuya-cloudcutter/tuya-cloudcutter.github.io/blob/master/devices/emylo-csac905-temperature-and-humidity-sensor-display.json) based on that dump, which was also added to the Tuya Cloudcutter project. After the device profile was added a firmware could be created through [UPK2ESPHome](https://upk.libretiny.eu/). This website creates a YAML file for ESPHome based on the device profile.
+
+After the YAML file was created, it was possible to compile and flash the firmware based on the YAML file with the ESPHome CLI using this command:
+
+```bash
+python -m esphome run yourdevice.yml
+```
+
+The device was now added successfully to my local network and it appeared in my ESPHome dashboard. However, the device was not working as expected. On one hand it very quickly lost connection to the network. This is because of the issue with battery powered devices I already mentioned above. However, this was not as bad because through clicking the button on top of the temperature sensor very often I could keep it awake.
+
+So with that workaround, I was able to keep the device on the network, even if only for a certain time. However, as the device now appears in my ESPHome dashboard, I was able to compile new firmware wirelessly from here and send it to the device.
+
+However, at this point I was still not able to control the unit as I had imagined. This is due to another chip inside the device, the TuyaMCU chip. This chip is responsible for translating the software signals from the wifi chip and passing them on to the hardware components and vice versa. Unfortunately, this chip cannot be addressed via the ESPHome Flash, which is why I did not get anywhere further at this point.
+
+I tried out some other ways of hacking the device physically, for example I was able to read different data over the controlling pins of the PCB with an Arduino. But none of the approaches led to really gaining control over the device let alone the screen.
+
+[Image of the Arduino reading the data]("")
+
+[Image of the control pins]("")
 
 ## tinytuya
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+As I was not able to flash firmware on to the device or control it through any other way I needed to find an alternative. Fortunately, I came across another project during the process called [tinytuya](https://github.com/jasonacox/tinytuya), a project by [Jason Cox](https://github.com/jasonacox). tinytuya is a Python API to access Tuya WiFi devices on a local network without flashing any new firmware.
 
-```bash
-This is how code looks like
-```
+It uses different parameters, such as the Network address (IPv4) of the device, the device ID, the version of the Tuya protocol and a local key to connect to the device.
+
+To obtain these different parameters I followed the instructions in the [README.md](https://github.com/jasonacox/tinytuya/blob/master/README.md) of the project. Unfortunately this step is only possible by connecting the devices to the cloud once. This is because the local key is only generated once the device is connected to the cloud. After that, the device can be controlled locally without the need of the cloud.
+
+With the Parameters ready I could simply write a Python script that can read different values from the device. You can find the script in the repository of this project. This is the same script that is used to control how much research is visible on this site.
 
 ## Acknowledgements
+
+This project would not been possible without the help of some amazing people from the open source community. ❤️
+
+Thanks to [digiblurDIY](https://www.youtube.com/@digiblurDIY) and his [Discord family](https://Fdiscord.gg/bNtTF2v) for their helpful hints and messages. Besides, without these tutorials from [digiblurDIY](https://www.youtube.com/@digiblurDIY) I would not have got this far in the first place:
+
+- [Tuya CloudCutter & ESPHome Libretuya LibreTiny How To Guide for Beken Chips | No soldering!](https://youtu.be/i9HokGpj-kE?si=mOb09CRKDw6YJlEw)
+- [UPDATED Tuya-CloudCutter with ESPHome Beken Devices | How To Guide Home Assistant](https://youtu.be/VFsuza3UAhk?si=e4LptlxY4WgKnE6t)
+- [How To Install ESPHome on Tuya Beken BK7231 w/ ltchiptool](https://youtu.be/t0o8nMbqOSA?si=5XdB87ZRBpE-bYPP)
+
+Thanks to [kuba2k2](https://github.com/kuba2k2) and [Cossid](https://github.com/Cossid) for helping me with building the device profiles for Tuya Cloudcutter. I have never seen anybody react so quick to a GitHub issue. ⚡️
+
+Last but not least, thanks to my amazing friends [Mohar Kalra](https://mkalra.me/), [Clemens Hornemann](https://kunst.pictures/) and Omar Zaki which helped me a lot along the way. ❤️
+
+[^1]: https://www.elektroda.com/rtvforum/topic4000657.html
