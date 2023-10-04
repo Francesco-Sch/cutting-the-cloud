@@ -3,7 +3,7 @@ const { temperature_limit, order } = Astro.props;
 ---
 
 <script>
-	import { temperatures } from "../stores/temperature.js";
+	import { addTemperature, updateTemperature } from "../stores/temperature.js";
 
 	class TemperatureTrigger extends HTMLElement {
 		constructor() {
@@ -12,42 +12,20 @@ const { temperature_limit, order } = Astro.props;
 			const temperature_limit = this.dataset.temperatureLimit;
 			const order = this.dataset.order;
 
-			// Add data to store
-			let tempTemperatures = temperatures.get();
-
-			tempTemperatures[order] = {
-				temperature_limit: temperature_limit,
-				visible: false,
-			};
-
-			temperatures.set(tempTemperatures);
+			// Set initial data
+			addTemperature(order, temperature_limit, false);
 
 			// If this container goes into viewport then set visible to true
 			this.observer = new IntersectionObserver(
 				(entries) => {
 					entries.forEach((entry) => {
-						let tempTemperatures = temperatures.get();
-
-						// Get data for the specific element that triggered the callback
-						const targetElement = entry.target;
-						const order = targetElement.dataset.order;
-						const temperature_limit = targetElement.dataset.temperatureLimit;
-
 						if (entry.isIntersecting) {
 							// Update data for the specific element that is in view
-							tempTemperatures[order] = {
-								temperature_limit: temperature_limit,
-								visible: true,
-							};
+							updateTemperature(order, temperature_limit, true);
 						} else {
 							// Update data for the specific element that is out of view
-							tempTemperatures[order] = {
-								temperature_limit: temperature_limit,
-								visible: false,
-							};
+							updateTemperature(order, temperature_limit, false);
 						}
-
-						temperatures.set(tempTemperatures);
 					});
 				},
 				{ threshold: 0.5 }

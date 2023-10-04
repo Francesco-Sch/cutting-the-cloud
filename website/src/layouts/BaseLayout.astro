@@ -14,6 +14,28 @@ import "../styles/index.css";
 const { frontmatter } = Astro.props;
 ---
 
+<script>
+	import { temperatures, active } from "../stores/temperature";
+
+	active.subscribe((active) => {
+		if (active === false) {
+			document.body.classList.remove("overflow-hidden");
+		}
+	});
+
+	temperatures.subscribe((temperatures) => {
+		if (active.get() === false) return;
+
+		const isVisible = Object.values(temperatures).some((item) => item.visible);
+
+		if (isVisible) {
+			document.body.classList.add("overflow-hidden");
+		} else {
+			document.body.classList.remove("overflow-hidden");
+		}
+	});
+</script>
+
 <html lang="en">
 	<CommonHead title={`Cutting the Cloud - ${frontmatter.title}`} />
 	<body class="bg-neutral-100 mouse-cursor-gradient-tracking">

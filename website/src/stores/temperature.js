@@ -1,9 +1,14 @@
-import { atom } from "nanostores";
+import { atom, map } from "nanostores";
 
-export const active = atom(true);
-export let temperatures = atom([
-	{
-		temperature_limit: 25,
-		visible: false,
-	},
-]);
+const active = atom(true);
+const temperatures = map({});
+
+const addTemperature = (order, temperature_limit, visible) => {
+	temperatures.setKey(order, { temperature_limit, visible });
+};
+
+const updateTemperature = (order, temperature_limit, visible) => {
+	temperatures.setKey(order, { temperature_limit, visible });
+};
+
+export { active, temperatures, addTemperature, updateTemperature };

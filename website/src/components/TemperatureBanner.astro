@@ -13,15 +13,26 @@
 	active.subscribe((isActive) => {
 		console.log("Temperature mode is", isActive ? "on" : "off");
 
-		const isVisible = temperatures.get().some((temp) => temp.visible);
+		const isVisible = Object.values(temperatures.get()).some(
+			(item) => item.visible
+		);
 
 		if (isVisible && (isActive === true || isActive === false)) {
 			toggleBanner();
 		}
 	});
+
 	temperatures.subscribe((temperatures) => {
-		console.log("Temperatures:", temperatures);
-		// Get the object where visible is true
+		if (active.get() === false) return;
+
+		// Get the temperature that is visible
+		const visibleTemperature = Object.values(temperatures).find(
+			(item) => item.visible
+		);
+
+		if (!visibleTemperature) return;
+
+		toggleBanner();
 	});
 
 	// let socket = io.connect("localhost:5000");
