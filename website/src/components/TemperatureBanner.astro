@@ -3,45 +3,55 @@
 ---
 
 <script>
-	import { temperatures, active } from "../stores/temperature.js";
+	import {
+		temperatures,
+		active,
+		updateTemperature,
+	} from "../stores/temperature.js";
 
 	function toggleBanner() {
 		let banner = document.getElementById("temperature_banner");
+		banner.classList.toggle("drop--shadow");
 		banner.classList.toggle("translate-y-full");
+
+		const temperature_limit = document.querySelector(
+			"#temperature_limit_number"
+		);
+		if (temperature_limit) {
+			const visibleTemperature = getVisibleTemperature();
+			if (visibleTemperature) {
+				const key = Object.keys(visibleTemperature)[0];
+				temperature_limit.innerHTML =
+					visibleTemperature[key]?.temperature_limit ?? "";
+			}
+		}
+	}
+
+	function getVisibleTemperature() {
+		const entry = Object.entries(temperatures.get()).find(
+			([, item]) => item.visible
+		);
+		if (entry) {
+			const [key, value] = entry;
+			return { [key]: value };
+		}
+		return null;
 	}
 
 	active.subscribe((isActive) => {
 		console.log("Temperature mode is", isActive ? "on" : "off");
 
-		const isVisible = Object.values(temperatures.get()).some(
-			(item) => item.visible
-		);
-
-		if (isVisible && (isActive === true || isActive === false)) {
+		if (getVisibleTemperature() && (isActive === true || isActive === false)) {
 			toggleBanner();
 		}
 	});
-
 	temperatures.subscribe((temperatures) => {
 		if (active.get() === false) return;
 
-		// Get the temperature that is visible
-		const visibleTemperature = Object.values(temperatures).find(
-			(item) => item.visible
-		);
-
-		if (!visibleTemperature) return;
+		if (!getVisibleTemperature()) return;
 
 		toggleBanner();
 	});
-
-	// let socket = io.connect("localhost:5000");
-	// const current_temperature = document.getElementById("current_temperature");
-
-	// socket.on("number_update", function (data) {
-	// 	console.log("Received number:", data.number);
-	// 	current_temperature.innerHTML = data.number;
-	// });
 
 	// Toggle temperature mode
 	document.addEventListener("keydown", (event) => {
@@ -49,6 +59,29 @@
 		if (event.key === "k" && event.metaKey) {
 			let currentActive = active.get();
 			active.set(!currentActive);
+		}
+	});
+
+	let socket = io.connect("localhost:5000");
+	const current_temperature = document.getElementById("current_temperature");
+
+	socket.on("number_update", function (data) {
+		console.log("Received number:", data.number);
+		current_temperature.innerHTML = data.number;
+
+		const visibleTemperature = getVisibleTemperature();
+
+		if (visibleTemperature) {
+			const innerObject = Object.values(visibleTemperature)[0];
+
+			if (data.number >= innerObject.temperature_limit) {
+				toggleBanner();
+				updateTemperature(
+					Object.keys(visibleTemperature)[0],
+					innerObject.temperature_limit,
+					false
+				);
+			}
 		}
 	});
 </script>
@@ -69,7 +102,7 @@
 		<p
 			class="temperature_limit font-display h-full text-orange-700 -mt-6 md:-mb-16 xl:mt-0 xl:-mb-32"
 		>
-			25C
+			<span id="temperature_limit_number">25</span>C
 		</p>
 		<p
 			class="w-full flex sm:block -mt-4 sm:-mt-8 md:mt-auto xl:mt-auto xl:ml-16 xl:mb-4 self-end text-lg sm:text-xl font-serif"
@@ -93,6 +126,9 @@
 </div>
 
 <style>
+	#temperature_banner.drop--shadow {
+		filter: drop-shadow(0 0 10rem rgba(0, 0, 0, 0.5));
+	}
 	.temperature_limit {
 		font-size: calc(var(--vw, 1vw) * 40);
 	}

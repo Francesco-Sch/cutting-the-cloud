@@ -15,13 +15,11 @@ def index():
 
 def number_generator():
     # This function simulates changes in the value you're reading from another device
-    prev_number = None
+    number = 1
     while True:
-        number = random.randint(1, 100)
-        if number != prev_number:  # checks if the number has changed
-            print(f"Number changed: {number}")
-            socketio.emit('number_update', {'number': number})
-            prev_number = number
+        print(f"Number changed: {number}")
+        socketio.emit('number_update', {'number': number})
+        number += 1
         time.sleep(5)
 
 if __name__ == "__main__":

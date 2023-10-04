@@ -3,6 +3,8 @@ layout: ../layouts/BaseLayout.astro
 title: Cutting the ☁️ away
 ---
 
+import TemperatureTrigger from "../components/TemperatureTrigger.astro";
+
 import { Code } from "astro:components";
 import { Image } from "astro:assets";
 import usb_to_ttl from "../assets/images/usb-to-ttl.webp";
@@ -40,6 +42,8 @@ Following the instructions in the [README](https://github.com/ct-Open-Source/tuy
 
 Luckily, there was a new open source project on the horizon.
 
+<TemperatureTrigger temperature_limit={25} order={0} />
+
 ## Tuya Cloudcutter
 
 [Tuya Cloudcutter](https://github.com/tuya-cloudcutter/tuya-cloudcutter) is the successor to Tuya Convert for BEKEN-based devices. The exploit discovered found by [Khaled Nassar](https://twitter.com/kmhnassar) and [Tom Clement](https://twitter.com/Tom_Clement) and [Jilles Groenendijk](https://twitter.com/jilles_com). It works in a similar way to Tuya convert in that it allows someone to flash new firmware to smart home devices over the air. With Tuya Cloudcutter it is possible to flash either ESPHome or OpenBeken firmware, which are similar in use to Tasmota. As ESPHome also has documentation for controlling screen-based devices, I opted for this option.
@@ -53,6 +57,8 @@ However, my experience with the two temperature sensors was different. Despite b
 Another setback, and this one was even more difficult. Figuring out what the problem was was not easy, as there were many factors at play. It could have been the wrong device profile, something with the device itself or a problem with ESPHome Kickstart. In the end, I learnt that the problem was probably due to the fact that the devices are battery powered. To conserve battery power, the devices only connect to WiFi sporadically. For example, the TH08 temperature sensor connects to the cloud every hour to update its readings. This is probably controlled by the internal RTC, although I cannot prove it. [^1]
 
 As none of the options to flash the devices wirelessly worked, I had no other option but to open them up and solder some wires to them.
+
+<TemperatureTrigger temperature_limit={30} order={1} />
 
 ## Soldering
 
@@ -98,6 +104,8 @@ I tried out some other ways of hacking the device physically, for example I was 
 	height="768"
 	class="mx-auto"
 />
+
+<TemperatureTrigger temperature_limit={35} order={2} />
 
 ## tinytuya
 
