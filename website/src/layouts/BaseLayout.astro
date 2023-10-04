@@ -18,8 +18,12 @@ const { frontmatter } = Astro.props;
 	import { temperatures, active } from "../stores/temperature";
 
 	active.subscribe((active) => {
+		const isVisible = Object.values(temperatures).some((item) => item.visible);
+
 		if (active === false) {
 			document.body.classList.remove("overflow-hidden");
+		} else if (active === true && isVisible) {
+			document.body.classList.add("overflow-hidden");
 		}
 	});
 
