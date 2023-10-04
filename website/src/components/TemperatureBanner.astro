@@ -27,6 +27,10 @@
 		}
 	}
 
+	function toggleTemperatureMode() {
+		active.set(!active.get());
+	}
+
 	function getVisibleTemperature() {
 		const entry = Object.entries(temperatures.get()).find(
 			([, item]) => item.visible
@@ -57,10 +61,11 @@
 	document.addEventListener("keydown", (event) => {
 		event.preventDefault();
 		if (event.key === "k" && event.metaKey) {
-			let currentActive = active.get();
-			active.set(!currentActive);
+			toggleTemperatureMode();
 		}
 	});
+	const temperatureModeBtn = document.getElementById("temperature-mode-btn");
+	temperatureModeBtn.addEventListener("click", toggleTemperatureMode);
 
 	let socket = io.connect("localhost:5000");
 	const current_temperature = document.getElementById("current_temperature");
@@ -118,10 +123,14 @@
 	>
 		<p class="font-serif">
 			If there are no TH08 temperature sensors in your close proximity you are
-			not able to change the temperature. To disable this feature press:
+			not able to change the temperature. To disable this feature press this key
+			combination or click on the button:
 		</p>
 
-		<p class="mt-6 font-mono">CMD + K</p>
+		<button
+			class="mt-6 font-mono px-4 py-2 border border-neutral-900 border-solid hover:text-white hover:bg-neutral-900 transition-colors"
+			id="temperature-mode-btn">CMD + K</button
+		>
 	</div>
 </div>
 
