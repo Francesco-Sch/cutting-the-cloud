@@ -23,9 +23,9 @@ const { temperature_limit, order } = Astro.props;
 			temperatures.set(tempTemperatures);
 
 			// If this container goes into viewport then set visible to true
-			this.observer = new IntersectionObserver((entries) => {
-				entries.forEach(
-					(entry) => {
+			this.observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
 						let tempTemperatures = temperatures.get();
 
 						// Get data for the specific element that triggered the callback
@@ -48,10 +48,11 @@ const { temperature_limit, order } = Astro.props;
 						}
 
 						temperatures.set(tempTemperatures);
-					},
-					{ threshold: 0.5 }
-				);
-			});
+					});
+				},
+				{ threshold: 0.5 }
+			); // Moved threshold option here
+
 			this.observer.observe(this);
 		}
 

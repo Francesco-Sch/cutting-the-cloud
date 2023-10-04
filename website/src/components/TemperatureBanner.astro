@@ -5,22 +5,46 @@
 <script>
 	import { temperatures, active } from "../stores/temperature.js";
 
-	temperatures.subscribe((value) => {
-		console.log("Temperature:", value);
+	function toggleBanner() {
+		let banner = document.getElementById("temperature_banner");
+		banner.classList.toggle("translate-y-full");
+	}
+
+	active.subscribe((isActive) => {
+		console.log("Temperature mode is", isActive ? "on" : "off");
+
+		const isVisible = temperatures.get().some((temp) => temp.visible);
+
+		if (isVisible && (isActive === true || isActive === false)) {
+			toggleBanner();
+		}
+	});
+	temperatures.subscribe((temperatures) => {
+		console.log("Temperatures:", temperatures);
+		// Get the object where visible is true
 	});
 
-	let socket = io.connect("localhost:5000");
-	const current_temperature = document.getElementById("current_temperature");
+	// let socket = io.connect("localhost:5000");
+	// const current_temperature = document.getElementById("current_temperature");
 
-	socket.on("number_update", function (data) {
-		console.log("Received number:", data.number);
-		current_temperature.innerHTML = data.number;
+	// socket.on("number_update", function (data) {
+	// 	console.log("Received number:", data.number);
+	// 	current_temperature.innerHTML = data.number;
+	// });
+
+	// Toggle temperature mode
+	document.addEventListener("keydown", (event) => {
+		event.preventDefault();
+		if (event.key === "k" && event.metaKey) {
+			let currentActive = active.get();
+			active.set(!currentActive);
+		}
 	});
 </script>
 
 <div
 	id="temperature_banner"
-	class="fixed bottom-0 left-0 w-full grid-cols-12 z-50 h-min min-h-3/5 xl:h-3/5 bg-neutral-100 p-4 md:p-8 not-prose hidden"
+	class="fixed bottom-0 left-0 w-full grid grid-cols-12 z-50 h-min min-h-3/5 xl:h-3/5 bg-neutral-100 p-4 md:p-8 translate-y-full transition-transform"
 >
 	<p
 		class="font-serif text-2xl sm:text-4xl md:text-5xl xl:text-6xl font-light col-span-12 md:col-span-8 col-start-1 row-start-1 row-end-2"
@@ -34,7 +58,7 @@
 		<p
 			class="temperature_limit font-display h-full text-orange-700 -mt-6 md:-mb-16 xl:mt-0 xl:-mb-32"
 		>
-			{temperature_limit}C
+			25C
 		</p>
 		<p
 			class="w-full flex sm:block -mt-4 sm:-mt-8 md:mt-auto xl:mt-auto xl:ml-16 xl:mb-4 self-end text-lg sm:text-xl font-serif"
@@ -53,7 +77,7 @@
 			not able to change the temperature. To disable this feature press:
 		</p>
 
-		<p class="mt-6 font-mono">CMD + T</p>
+		<p class="mt-6 font-mono">CMD + K</p>
 	</div>
 </div>
 
