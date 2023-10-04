@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-import time
+# import time
 import threading
 from flask_cors import CORS
 
@@ -46,13 +46,21 @@ def get_temperature():
                 socketio.emit('temperature_update', {'temperature': currentTemperature})
             else:
                 print("Temperature Unchanged")
+        
+        else:
+            print("No Temperature Data")
+          
 
         # Send keyalive heartbeat
-        print(" > Send Heartbeat Ping < ")
-        payload = d.generate_payload(tinytuya.HEART_BEAT)
-        d.send(payload)
+        # print(" > Send Heartbeat Ping < ")
+        # payload = d.generate_payload(tinytuya.HEART_BEAT)
+        # d.send(payload)
 
-        time.sleep(5)
+        # time.sleep(5)
+
+@app.route('/ping')
+def ping():
+    return "pong"
 
 if __name__ == "__main__":
     t = threading.Thread(target=get_temperature)

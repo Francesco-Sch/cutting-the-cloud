@@ -67,17 +67,13 @@
 	const temperatureModeBtn = document.getElementById("temperature-mode-btn");
 	temperatureModeBtn.addEventListener("click", toggleTemperatureMode);
 
-	let socket;
-	try {
-		socket = io.connect("localhost:5000");
-	} catch (error) {
-		console.error("Error connecting to socket:", error);
-	}
 	const current_temperature = document.getElementById("current_temperature");
+	const socketURL = "http://localhost:5000";
+	let socket;
 
-	console.log(socket);
+	function connectToSocket() {
+		socket = io.connect(socketURL);
 
-	if (socket.connected) {
 		socket.on("temperature_update", function (data) {
 			console.log("Received temperature:", data.temperature);
 			current_temperature.innerHTML = data.temperature;
@@ -98,6 +94,22 @@
 			}
 		});
 	}
+
+	function checkSocketStatus() {
+		fetch(socketURL + "/ping")
+			.then((response) => {
+				if (response.ok) {
+					connectToSocket();
+				} else {
+					console.error("Socket is not available");
+				}
+			})
+			.catch((error) => {
+				console.error("Socket is not available", error);
+			});
+	}
+
+	checkSocketStatus();
 </script>
 
 <div
