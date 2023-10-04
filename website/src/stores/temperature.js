@@ -1,6 +1,10 @@
 import { atom, map } from "nanostores";
+import { persistentAtom } from "@nanostores/persistent";
 
-const active = atom(true);
+const active = persistentAtom("active", true, {
+	encode: JSON.stringify,
+	decode: JSON.parse,
+});
 const temperatures = map({});
 
 const addTemperature = (order, temperature_limit, visible) => {
