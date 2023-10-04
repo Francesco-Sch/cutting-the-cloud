@@ -1,0 +1,54 @@
+---
+const { temperature_limit, order } = Astro.props;
+---
+
+<script>
+	import { addTemperature, updateTemperature } from "../stores/temperature.js";
+
+	class TemperatureTrigger extends HTMLElement {
+		constructor() {
+			super();
+
+			const temperature_limit = this.dataset.temperatureLimit;
+			const order = this.dataset.order;
+
+			// Set initial data
+			addTemperature(order, temperature_limit, false);
+
+			// If this container goes into viewport then set visible to true
+			this.observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							// Update data for the specific element that is in view
+							updateTemperature(order, temperature_limit, true);
+						} else {
+							// Update data for the specific element that is out of view
+							updateTemperature(order, temperature_limit, false);
+						}
+					});
+				},
+				{ threshold: 0.5 }
+			); // Moved threshold option here
+
+			this.observer.observe(this);
+		}
+
+		// Add the disconnectedCallback function
+		disconnectedCallback() {
+			if (this.observer) {
+				this.observer.disconnect();
+			}
+		}
+	}
+
+	customElements.define("temperature-trigger", TemperatureTrigger);
+</script>
+
+<temperature-trigger
+	id="temperature-trigger"
+	class="invisible"
+	data-temperature-limit={temperature_limit}
+	data-order={order}
+>
+</temperature-trigger>

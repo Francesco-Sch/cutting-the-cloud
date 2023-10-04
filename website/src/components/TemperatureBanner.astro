@@ -1,0 +1,176 @@
+---
+
+---
+
+<script>
+	import {
+		temperatures,
+		active,
+		updateTemperature,
+	} from "../stores/temperature.js";
+
+	function toggleBanner() {
+		let banner = document.getElementById("temperature_banner");
+		banner.classList.toggle("drop--shadow");
+		banner.classList.toggle("translate-y-full");
+
+		const temperature_limit = document.querySelector(
+			"#temperature_limit_number"
+		);
+		if (temperature_limit) {
+			const visibleTemperature = getVisibleTemperature();
+			if (visibleTemperature) {
+				const key = Object.keys(visibleTemperature)[0];
+				temperature_limit.innerHTML =
+					visibleTemperature[key]?.temperature_limit ?? "";
+			}
+		}
+	}
+
+	function toggleTemperatureMode() {
+		active.set(!active.get());
+	}
+
+	function getVisibleTemperature() {
+		const entry = Object.entries(temperatures.get()).find(
+			([, item]) => item.visible
+		);
+		if (entry) {
+			const [key, value] = entry;
+			return { [key]: value };
+		}
+		return null;
+	}
+
+	active.subscribe((isActive) => {
+		console.log("Temperature mode is", isActive ? "on" : "off");
+
+		if (getVisibleTemperature() && (isActive === true || isActive === false)) {
+			toggleBanner();
+		}
+	});
+	temperatures.subscribe((temperatures) => {
+		if (active.get() === false) return;
+
+		if (!getVisibleTemperature()) return;
+
+		toggleBanner();
+	});
+
+	// Toggle temperature mode
+	document.addEventListener("keydown", (event) => {
+		event.preventDefault();
+		if (event.key === "k" && event.metaKey) {
+			toggleTemperatureMode();
+		}
+	});
+	const temperatureModeBtn = document.getElementById("temperature-mode-btn");
+	temperatureModeBtn.addEventListener("click", toggleTemperatureMode);
+
+	const current_temperature = document.getElementById("current_temperature");
+	const socketURL = "http://localhost:5000";
+	let socket;
+
+	function connectToSocket() {
+		socket = io.connect(socketURL);
+
+		socket.on("temperature_update", function (data) {
+			console.log("Received temperature:", data.temperature);
+			current_temperature.innerHTML = data.temperature;
+
+			const visibleTemperature = getVisibleTemperature();
+
+			if (visibleTemperature) {
+				const innerObject = Object.values(visibleTemperature)[0];
+
+				if (data.number >= innerObject.temperature_limit) {
+					toggleBanner();
+					updateTemperature(
+						Object.keys(visibleTemperature)[0],
+						innerObject.temperature_limit,
+						false
+					);
+				}
+			}
+		});
+	}
+
+	function checkSocketStatus() {
+		fetch(socketURL + "/ping")
+			.then((response) => {
+				if (response.ok) {
+					connectToSocket();
+				} else {
+					console.error("Socket is not available");
+				}
+			})
+			.catch((error) => {
+				console.error("Socket is not available", error);
+			});
+	}
+
+	checkSocketStatus();
+</script>
+
+<div
+	id="temperature_banner"
+	class="fixed bottom-0 left-0 w-full grid grid-cols-12 z-50 h-min min-h-3/5 xl:h-3/5 bg-neutral-100 p-4 md:p-8 translate-y-full transition-transform"
+>
+	<p
+		class="font-serif text-2xl sm:text-4xl md:text-5xl xl:text-6xl font-light col-span-12 md:col-span-8 col-start-1 row-start-1 row-end-2"
+	>
+		Increase the temperature to
+	</p>
+
+	<div
+		class="col-span-12 md:col-span-9 2xl:col-span-8 col-start-1 row-start-2 flex flex-col xl:flex-row h-full"
+	>
+		<p
+			class="temperature_limit font-display h-full text-orange-700 -mt-6 md:-mb-16 xl:mt-0 xl:-mb-32"
+		>
+			<span id="temperature_limit_number">25</span>C
+		</p>
+		<p
+			class="w-full flex sm:block -mt-4 sm:-mt-8 md:mt-auto xl:mt-auto xl:ml-16 xl:mb-4 self-end text-lg sm:text-xl font-serif"
+		>
+			<span class="grow sm:grow-0">Currently at:</span>
+			<br class="hidden xl:inline" />
+			<span id="current_temperature"> 0</span> °C
+		</p>
+	</div>
+
+	<div
+		class="col-span-12 md:col-start-10 2xl:col-start-11 md:col-end-13 row-auto md:row-span-3 mt-auto md:mt-0 text-sm sm:text-base"
+	>
+		<p class="font-serif">
+			If there are no TH08 temperature sensors in your close proximity you are
+			not able to change the temperature. To disable this feature press this key
+			combination or click on the button:
+		</p>
+
+		<button
+			class="mt-6 font-mono px-4 py-2 border border-neutral-900 border-solid hover:text-white hover:bg-neutral-900 transition-colors"
+			id="temperature-mode-btn">CMD + K</button
+		>
+	</div>
+</div>
+
+<style>
+	#temperature_banner.drop--shadow {
+		filter: drop-shadow(0 0 10rem rgba(0, 0, 0, 0.5));
+	}
+	.temperature_limit {
+		font-size: calc(var(--vw, 1vw) * 40);
+	}
+
+	@media (min-width: 768px) {
+		.temperature_limit {
+			font-size: calc(var(--vh, 1vh) * 30);
+		}
+	}
+	@media (min-width: 1280px) {
+		.temperature_limit {
+			font-size: calc(var(--vh, 1vh) * 35);
+		}
+	}
+</style>

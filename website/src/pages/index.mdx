@@ -3,6 +3,8 @@ layout: ../layouts/BaseLayout.astro
 title: The ☁️ around temperature sensors
 ---
 
+import TemperatureTrigger from "../components/TemperatureTrigger.astro";
+
 import { Image } from "astro:assets";
 import TH08_frontal from "../assets/images/TH08-frontal.webp";
 import component_overview_pcb from "../assets/images/component-overview_TH08-CBU-AHT20-V2.1.webp";
@@ -66,6 +68,8 @@ Two of the chips had the label erased, so the price could not be determined. How
 | Battery Contacts (unknown)                                                          | 2      | ?       | ?       | ?         |
 | **Price in total**                                                                  |        |         |         | **4,23€** |
 
+<TemperatureTrigger temperature_limit={25} order={0} />
+
 Note that this is the price of just some of the components. It does not include the plastic casing, the LCD screen, all the small resistors and capacitors, or the material for the PCB itself. Although this is a very rough estimate, it still gives a good idea of the cost of the materials.
 Subtracted from the original price of the unit, we are left with:
 
@@ -93,6 +97,8 @@ As mentioned above, Aliexpress is Alibaba's consumer shopping portal, known for 
 
 Another important factor is the location of the production facilities in Shenzhen. Shenzhen is a Special Economic Zone (SEZ) designated by the Chinese government to promote economic growth and innovation. As an SEZ, Shenzhen enjoys various tax incentives and relaxed regulatory policies. This has attracted a large number of manufacturers and technology companies to set up operations in the city, resulting in a highly competitive market. The concentration of companies in Shenzhen fosters intense competition among suppliers, which drives down production costs. Aliexpress sellers in Shenzhen can tap into this ecosystem of low-cost manufacturing and use the city's logistics infrastructure for efficient global shipping, ultimately contributing to the platform's ability to deliver low-cost products to consumers around the world. [^9] [^10]
 
+<TemperatureTrigger temperature_limit={30} order={1} />
+
 ## Dropshipping
 
 Another interesting thing I noticed was that the TH08 temperature sensor and others I bought (you can find a full list in the [second part of the documentation](/cutting-the-cloud-away)) were available outside of Aliexpress. I was able to find several units I bought on Aliexpress on Amazon as well. The pictures, names and descriptions were slightly different, but the real difference was the price. Depending on the device, the price on Amazon was up to 2.8 times higher than on Aliexpress.
@@ -108,6 +114,8 @@ This calculation only makes sense if you work with the sales prices of Aliexpres
 Dropshipping is a business practice where the seller does not keep the products in stock, but instead transmits the customer's orders and shipping details to either the manufacturer, another retailer or a wholesaler who then ships the goods directly to the customer. As a result, the seller does not have to handle the product directly. This practice is very common with products from Aliexpress and explains the price difference between Aliexpress and Amazon, as otherwise the seller would not make a profit. [^11] [^12]
 
 Another indicator for the dropshipping thesis is the [Expo website from Tuya](https://expo.tuya.com/). That platform enables sellers to buy Tuya products in high volumne from certified suppliers. This platform allows sellers to buy Tuya products in bulk from certified suppliers. On this website, it is also possible to buy the [TH08 Temperature Sensor](https://expo.tuya.com/product/1077042) that I bought from Aliexpress, even with the ability to customise it.
+
+<TemperatureTrigger temperature_limit={35} order={2} />
 
 ## Proprietary Technology - <br/> TuyaMCU and Tuya Cloud
 

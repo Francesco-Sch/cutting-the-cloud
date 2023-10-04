@@ -4,6 +4,7 @@ import CommonHead from "../components/CommonHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
+import TemperatureBanner from "../components/TemperatureBanner.astro";
 
 // Styles
 import "@fontsource-variable/source-serif-4";
@@ -13,11 +14,36 @@ import "../styles/index.css";
 const { frontmatter } = Astro.props;
 ---
 
+<script>
+	import { temperatures, active } from "../stores/temperature";
+
+	active.subscribe((active) => {
+		const isVisible = Object.values(temperatures).some((item) => item.visible);
+
+		if (active === false) {
+			document.body.classList.remove("overflow-hidden");
+		} else if (active === true && isVisible) {
+			document.body.classList.add("overflow-hidden");
+		}
+	});
+
+	temperatures.subscribe((temperatures) => {
+		if (active.get() === false) return;
+
+		const isVisible = Object.values(temperatures).some((item) => item.visible);
+
+		if (isVisible) {
+			document.body.classList.add("overflow-hidden");
+		} else {
+			document.body.classList.remove("overflow-hidden");
+		}
+	});
+</script>
+
 <html lang="en">
 	<CommonHead title={`Cutting the Cloud - ${frontmatter.title}`} />
 	<body class="bg-neutral-100 mouse-cursor-gradient-tracking">
 		<Header />
-
 		<main class="main" transition:name="content">
 			<Hero />
 
@@ -26,10 +52,9 @@ const { frontmatter } = Astro.props;
 			>
 				<slot />
 			</article>
-
-			<!-- <TOC headings={headings} /> -->
 		</main>
-
 		<Footer />
+
+		<TemperatureBanner />
 	</body>
 </html>
