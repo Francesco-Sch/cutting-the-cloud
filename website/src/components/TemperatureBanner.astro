@@ -1,8 +1,14 @@
 ---
-const { temperature_limit = 25 } = Astro.props;
+
 ---
 
 <script>
+	import { temperatures, active } from "../stores/temperature.js";
+
+	temperatures.subscribe((value) => {
+		console.log("Temperature:", value);
+	});
+
 	let socket = io.connect("localhost:5000");
 	const current_temperature = document.getElementById("current_temperature");
 
@@ -13,7 +19,8 @@ const { temperature_limit = 25 } = Astro.props;
 </script>
 
 <div
-	class="fixed bottom-0 left-0 w-full grid grid-cols-12 z-50 h-min min-h-3/5 xl:h-3/5 bg-neutral-100 p-4 md:p-8"
+	id="temperature_banner"
+	class="fixed bottom-0 left-0 w-full grid-cols-12 z-50 h-min min-h-3/5 xl:h-3/5 bg-neutral-100 p-4 md:p-8 not-prose hidden"
 >
 	<p
 		class="font-serif text-2xl sm:text-4xl md:text-5xl xl:text-6xl font-light col-span-12 md:col-span-8 col-start-1 row-start-1 row-end-2"
@@ -39,7 +46,7 @@ const { temperature_limit = 25 } = Astro.props;
 	</div>
 
 	<div
-		class="col-span-12 md:col-start-10 2xl:col-start-9 md:col-end-13 row-auto md:row-span-3 mt-auto md:mt-0 text-sm sm:text-base"
+		class="col-span-12 md:col-start-10 2xl:col-start-11 md:col-end-13 row-auto md:row-span-3 mt-auto md:mt-0 text-sm sm:text-base"
 	>
 		<p class="font-serif">
 			If there are no TH08 temperature sensors in your close proximity you are
