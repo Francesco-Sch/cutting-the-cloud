@@ -2,6 +2,12 @@ import tinytuya
 from tinytuya import Contrib
 import os
 from dotenv import load_dotenv
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
+import time
+import threading
+from flask_cors import CORS
+
 
 load_dotenv()
 
@@ -9,40 +15,46 @@ d = Contrib.ThermostatDevice(os.getenv("DEVICE_ID"), os.getenv("IP_ADDRESS"), os
 d.set_version(3.4)
 d.set_socketPersistent(True)
 
-print(" > Send Request for Status < ")
-payload = d.generate_payload(tinytuya.DP_QUERY)
-d.send(payload)
+app = Flask(__name__)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
-print(" > Begin Monitor Loop <")
-while(True):
-    # See if any data is available
-    # data = d.receive()
-    # print('Received Payload: %r' % data)
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-    print(" > Send Request for Status < ")
-    data = d.status()  
-    print("Data from Status() call: %r" % data)
-
-    if 'dps' in data:
-        print(" > Read Temperature < ")
-        print("Temperature: %r" % data['dps']['1'])
-
-    # Send keyalive heartbeat
-    print(" > Send Heartbeat Ping < ")
-    payload = d.generate_payload(tinytuya.HEART_BEAT)
+def get_temperature():
+    print(" > Send Request for Payload < ")
+    payload = d.generate_payload(tinytuya.DP_QUERY)
     d.send(payload)
 
+    lastTemperature = 0
+    
+    print(" > Begin Sensor Monitoring <")
+    while True:
+        print(" > Send Request for Status < ")
+        data = d.status()  
+        print("Data from Status() call: %r" % data)
 
-    print(" > Send Request for DPS < ")
-    dps = d.detect_available_dps()
-    print("Available DPS: %r" % dps)
+        if 'dps' in data:
+            print(" > Read Temperature < ")
+            print("Temperature: %r" % data['dps']['1'])
 
-    # NOTE If you are not seeing updates, you can force them - uncomment:
-    # print(" > Send Request for Status < ")
-    # payload = d.generate_payload(tinytuya.DP_QUERY)
-    # d.send(payload)
+            if data['dps']['1'] & data['dps']['1'] != lastTemperature:
+                lastTemperature = data['dps']['1']
+                currentTemperature = data['dps']['1']
+                socketio.emit('temperature_update', {'temperature': currentTemperature})
+            else:
+                print("Temperature Unchanged")
 
-    # NOTE Some smart plugs require an UPDATEDPS command to update power data
-    # print(" > Send DPS Update Request < ")
-    # payload = d.generate_payload(tinytuya.UPDATEDPS)
-    # d.send(payload)    
+        # Send keyalive heartbeat
+        print(" > Send Heartbeat Ping < ")
+        payload = d.generate_payload(tinytuya.HEART_BEAT)
+        d.send(payload)
+
+        time.sleep(5)
+
+if __name__ == "__main__":
+    t = threading.Thread(target=get_temperature)
+    t.start()
+    socketio.run(app, debug=True)

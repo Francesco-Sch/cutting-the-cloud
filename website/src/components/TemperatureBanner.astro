@@ -67,28 +67,37 @@
 	const temperatureModeBtn = document.getElementById("temperature-mode-btn");
 	temperatureModeBtn.addEventListener("click", toggleTemperatureMode);
 
-	let socket = io.connect("localhost:5000");
+	let socket;
+	try {
+		socket = io.connect("localhost:5000");
+	} catch (error) {
+		console.error("Error connecting to socket:", error);
+	}
 	const current_temperature = document.getElementById("current_temperature");
 
-	socket.on("number_update", function (data) {
-		console.log("Received number:", data.number);
-		current_temperature.innerHTML = data.number;
+	console.log(socket);
 
-		const visibleTemperature = getVisibleTemperature();
+	if (socket.connected) {
+		socket.on("temperature_update", function (data) {
+			console.log("Received temperature:", data.temperature);
+			current_temperature.innerHTML = data.temperature;
 
-		if (visibleTemperature) {
-			const innerObject = Object.values(visibleTemperature)[0];
+			const visibleTemperature = getVisibleTemperature();
 
-			if (data.number >= innerObject.temperature_limit) {
-				toggleBanner();
-				updateTemperature(
-					Object.keys(visibleTemperature)[0],
-					innerObject.temperature_limit,
-					false
-				);
+			if (visibleTemperature) {
+				const innerObject = Object.values(visibleTemperature)[0];
+
+				if (data.number >= innerObject.temperature_limit) {
+					toggleBanner();
+					updateTemperature(
+						Object.keys(visibleTemperature)[0],
+						innerObject.temperature_limit,
+						false
+					);
+				}
 			}
-		}
-	});
+		});
+	}
 </script>
 
 <div
