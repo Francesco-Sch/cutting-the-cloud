@@ -1,54 +1,9 @@
+![README Header](./.github/readme-header.png)
+
 # Cutting the Cloud
 
-## Setup
+As our homes become smarter, a new technological infrastructure is becoming an integral part of our homes. It is changing the way we behave and interact with one of our most private and sensitive spaces.
 
-### Virtual Environment
+Cutting the Cloud is an artistic research and hacking project that explores the multiple layers surrounding smart home technology, using a cheap, battery-powered temperature sensor as an example. The project attempts to shed light on the origins and purposes of the sensor, who it is still connected to, and asks how it can ultimately become free.
 
-1. Create folder for virtual environment
-
-```bash
-python3 -m venv venv
-```
-
-2. Activate virtual environment
-
-```bash
-source venv/bin/activate
-```
-
-3. Deactivate virtual environment
-
-```bash
-deactivate
-```
-
-### Install packages
-
-1. Install packages
-
-```bash
-pip install -r requirements.txt
-```
-
-2. Freeze packages list
-
-```bash
-pip freeze
-```
-
-## Hacking devices
-
-### Scanning for devices
-
-```bash
-python3 -m tinytuya scan 9999
-```
-
-9999 sets the time for the scan to 9999 seconds. This long scan is needed to actually get the devices.
-Make sure the devices werea already connected to the Smart Life app. After that reboot the device while scan is running.
-
-### Add devices to Tuya IoT Development Platform
-
-Development Platform: https://iot.tuya.com/
-
-1. Create Cloud project
+The research and insights gained by looking at the temperature sensor from different perspectives have been collected in an interactive website. Through freeing the temperature sensor from the cloud it became part of the website controlling how much of the research will be visible in the end.
