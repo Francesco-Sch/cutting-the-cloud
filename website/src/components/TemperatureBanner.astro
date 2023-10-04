@@ -1,35 +1,46 @@
 ---
 const { temperature_limit = 25 } = Astro.props;
-let temperature = 0;
 ---
 
 <script>
 	let socket = io.connect("localhost:5000");
-	let temperature = 0;
+	const current_temperature = document.getElementById("current_temperature");
 
 	socket.on("number_update", function (data) {
 		console.log("Received number:", data.number);
+		current_temperature.innerHTML = data.number;
 	});
 </script>
 
 <div
-	class="w-full h-3/5 bg-neutral-100 fixed bottom-0 left-0 p-8 grid grid-cols-8 z-50"
+	class="fixed bottom-0 left-0 w-full grid grid-cols-12 z-50 h-min min-h-3/5 xl:h-3/5 bg-neutral-100 p-4 md:p-8"
 >
-	<p class="font-serif text-6xl col-span-8 col-start-1 row-end-2 row-start-1">
+	<p
+		class="font-serif text-2xl sm:text-4xl md:text-5xl xl:text-6xl font-light col-span-12 md:col-span-8 col-start-1 row-start-1 row-end-2"
+	>
 		Increase the temperature to
 	</p>
 
-	<div class="col-span-8 col-start-1 row-start-2 flex h-full -mb-32">
-		<p class="font-display h-full" style="font-size: calc(var(--vh, 1vh) * 35)">
+	<div
+		class="col-span-12 md:col-span-9 2xl:col-span-8 col-start-1 row-start-2 flex flex-col xl:flex-row h-full"
+	>
+		<p
+			class="temperature_limit font-display h-full text-orange-700 -mt-6 md:-mb-16 xl:mt-0 xl:-mb-32"
+		>
 			{temperature_limit}C
 		</p>
-		<p class="ml-16 mb-4 self-end text-xl font-mono">
-			Currently at: <br />
-			{temperature} °C
+		<p
+			class="w-full flex sm:block -mt-4 sm:-mt-8 md:mt-auto xl:mt-auto xl:ml-16 xl:mb-4 self-end text-lg sm:text-xl font-serif"
+		>
+			<span class="grow sm:grow-0">Currently at:</span>
+			<br class="hidden xl:inline" />
+			<span id="current_temperature"> 0</span> °C
 		</p>
 	</div>
 
-	<div class="col-span-4 col-end-12 row-start-1 row-span-3">
+	<div
+		class="col-span-12 md:col-start-10 2xl:col-start-9 md:col-end-13 row-auto md:row-span-3 mt-auto md:mt-0 text-sm sm:text-base"
+	>
 		<p class="font-serif">
 			If there are no TH08 temperature sensors in your close proximity you are
 			not able to change the temperature. To disable this feature press:
@@ -38,3 +49,20 @@ let temperature = 0;
 		<p class="mt-6 font-mono">CMD + T</p>
 	</div>
 </div>
+
+<style>
+	.temperature_limit {
+		font-size: calc(var(--vw, 1vw) * 40);
+	}
+
+	@media (min-width: 768px) {
+		.temperature_limit {
+			font-size: calc(var(--vh, 1vh) * 30);
+		}
+	}
+	@media (min-width: 1280px) {
+		.temperature_limit {
+			font-size: calc(var(--vh, 1vh) * 35);
+		}
+	}
+</style>
