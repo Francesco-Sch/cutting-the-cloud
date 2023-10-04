@@ -57,3 +57,7 @@
     prose-pre:mx-auto
     prose-pre:text-lg;
 }
+
+.astro-code {
+	@apply !bg-neutral-100 !border-neutral-400 border-solid border;
+}

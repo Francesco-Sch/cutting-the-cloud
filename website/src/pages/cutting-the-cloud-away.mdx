@@ -3,6 +3,7 @@ layout: ../layouts/BaseLayout.astro
 title: Cutting the ☁️ away
 ---
 
+import { Code } from "astro:components";
 import { Image } from "astro:assets";
 import usb_to_ttl from "../assets/images/usb-to-ttl.webp";
 import reading_control_pins from "../assets/images/reading-control-pins.webp";
@@ -69,9 +70,12 @@ To proceed a dumb of the original firmware had to be obtained. Utilizing ltchipt
 
 After the YAML file was created, the firmware could be compiled and flashed with the ESPHome CLI using this command:
 
-```bash
-python -m esphome run yourdevice.yml
-```
+<Code
+	code={`python -m esphome run yourdevice.yml`}
+	lang="zsh"
+	theme="github-light"
+	class="bg-neutral-100 border-neutral-900"
+/>
 
 The device was now added successfully to my local network and it appeared in my ESPHome dashboard. However, the device was not working as expected. On one hand it very quickly lost connection to the network. This is because of the issue with battery powered devices I already mentioned above. However, this was not as bad because through clicking the button on top of the temperature sensor very often I could keep it awake.
 
