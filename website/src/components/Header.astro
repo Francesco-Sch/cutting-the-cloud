@@ -1,5 +1,4 @@
 ---
-
 ---
 
 <header
@@ -30,7 +29,7 @@
 				>
 				</div>
 				<a
-					href="/cutting-the-cloud-away/"
+					href="./cutting-the-cloud-away/"
 					class="opacity-0 group-hover:opacity-100 transition-all"
 					>Cutting the ☁️ away</a
 				>
@@ -47,17 +46,41 @@
 	const current = window.location.pathname;
 
 	links.forEach((link) => {
-		if (link.getAttribute("href") === current) {
+		// Check if current contains cutting-the-cloud-away
+		if (
+			current.includes("cutting-the-cloud-away") &&
+			link.href.includes("cutting-the-cloud-away")
+		) {
 			link.classList.remove("opacity-0");
-		} else {
-			link.classList.add("opacity-0");
+			return;
+		} else if (
+			!current.includes("cutting-the-cloud-away") &&
+			!link.href.includes("cutting-the-cloud-away")
+		) {
+			link.classList.remove("opacity-0");
 		}
 	});
 
 	dots.forEach((dot) => {
-		if (dot.nextSibling.getAttribute("href") === current) {
+		if (
+			current.includes("cutting-the-cloud-away") &&
+			dot.nextSibling.href.includes("cutting-the-cloud-away")
+		) {
 			dot.classList.remove("invisible");
-		} else {
+		} else if (
+			current.includes("cutting-the-cloud-away") &&
+			!dot.nextSibling.href.includes("cutting-the-cloud-away")
+		) {
+			dot.classList.add("invisible");
+		} else if (
+			!current.includes("cutting-the-cloud-away") &&
+			!dot.nextSibling.href.includes("cutting-the-cloud-away")
+		) {
+			dot.classList.remove("invisible");
+		} else if (
+			!current.includes("cutting-the-cloud-away") &&
+			dot.nextSibling.href.includes("cutting-the-cloud-away")
+		) {
 			dot.classList.add("invisible");
 		}
 	});
